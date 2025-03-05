@@ -11,7 +11,7 @@ export function NavLinks({ isSelected, title, to }: NavLinksProps) {
     <li>
       <Link
         to={to}
-        className={`font-semibold text-gray-100 hover:text-sky-400 transition-colors ${isSelected ? 'border-b' : ''}`}
+        className={`font-semibold text-gray-100 transition-colors hover:text-gray-300 ${isSelected ? 'border-b pb-2' : ''}`}
       >
         {title}
       </Link>

@@ -1,6 +1,6 @@
 import globals from 'globals'
 import pluginJs from '@eslint/js'
-import tseslint from 'typescript-eslint'
+import { config, configs } from 'typescript-eslint'
 import pluginReact from 'eslint-plugin-react'
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import importPlugin from 'eslint-plugin-import'
@@ -8,7 +8,7 @@ import pluginPromise from 'eslint-plugin-promise'
 import pluginQuery from '@tanstack/eslint-plugin-query'
 
 /** @type {import('eslint').Linter.Config[]} */
-export default tseslint.config([
+export default config([
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     extends: [
@@ -20,7 +20,7 @@ export default tseslint.config([
     languageOptions: { globals: globals.browser },
   },
   pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+  ...configs.recommended,
   pluginReact.configs.flat.recommended,
   {
     rules: {
@@ -36,7 +36,11 @@ export default tseslint.config([
         node: {
           extensions: ['.js', '.mjs', '.ts'],
         },
+        typescript: {
+          project: './tsconfig.app.json',
+        },
       },
+      react: { version: 'detect' },
     },
   },
   eslintPluginPrettierRecommended,
