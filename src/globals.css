@@ -4,6 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
 /* @layer base {
   :root {
     --background: 0 0% 100%;
@@ -49,7 +50,7 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }
-} */
+}
 
 @theme {
   --color-accent-100: #50B2C0;
@@ -83,8 +84,8 @@
   --color-border: hsl(0 0% 89.8%);
   --color-input: hsl(0 0% 89.8%);
   --color-ring: hsl(0 0% 3.9%);
-  /* --color-radius: 0.75rem; */
-}
+  --color-radius: 0.75rem;
+} */
 
 :root {
   --background: oklch(1 0 0);

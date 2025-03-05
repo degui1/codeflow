@@ -3,7 +3,7 @@ import { Header } from './components/Header/header.tsx'
 
 export function CoreLayout() {
   return (
-    <div className="bg-foreground h-lvh">
+    <div className="bg-background h-lvh">
       <Header />
 
       <div className="">
