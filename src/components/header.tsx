@@ -11,7 +11,15 @@ export function Header() {
 
         <nav>
           <ul>
-            <Button variant="link" asChild>
+            <Button
+              variant="link"
+              asChild
+              onClick={() =>
+                document
+                  .getElementsByTagName('main')[0]
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }
+            >
               <Link to="/">Home</Link>
             </Button>
             <Button variant="link" asChild>
@@ -19,6 +27,18 @@ export function Header() {
             </Button>
             <Button variant="link" asChild>
               <Link to="/workflow-builder">Builder</Link>
+            </Button>
+            <Button
+              variant="link"
+              asChild
+              onClick={() =>
+                document
+                  .getElementById('features-section')
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }
+              className="cursor-pointer"
+            >
+              <Link to="/">Ferramentas</Link>
             </Button>
           </ul>
         </nav>
