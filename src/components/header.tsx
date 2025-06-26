@@ -3,32 +3,52 @@ import { Button } from './ui/button'
 
 export function Header() {
   return (
-    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50 w-full border-b py-6 backdrop-blur">
-      <div className="sticky container mx-auto flex items-center justify-between px-4">
+    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 border-b py-6 backdrop-blur">
+      <div className="container mx-auto flex items-center justify-between px-4">
         <Link to="/" className="text-2xl font-bold">
-          CodeFlow
+          <img src="/codeflow_logo.png" alt="" width={60} height={80} />
         </Link>
 
         <nav>
           <ul>
-            <Button variant="link" asChild>
+            <Button
+              variant="link"
+              asChild
+              onClick={() =>
+                document
+                  .getElementsByTagName('main')[0]
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }
+            >
               <Link to="/">Home</Link>
             </Button>
             <Button variant="link" asChild>
               <Link to="/community">Community</Link>
             </Button>
             <Button variant="link" asChild>
-              <Link to="/workflow-builder">Workflow builder</Link>
+              <Link to="/workflow-builder">Builder</Link>
+            </Button>
+            <Button
+              variant="link"
+              asChild
+              onClick={() =>
+                document
+                  .getElementById('features-section')
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }
+              className="cursor-pointer"
+            >
+              <Link to="/">Ferramentas</Link>
             </Button>
           </ul>
         </nav>
 
         <div className="flex gap-1">
           <Button variant="ghost" asChild>
-            <Link to="/">Sign in</Link>
+            <Link to="/">Entrar</Link>
           </Button>
           <Button asChild>
-            <Link to="/">Get started</Link>
+            <Link to="/">Comece agora</Link>
           </Button>
         </div>
       </div>
