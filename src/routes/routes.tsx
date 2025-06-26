@@ -29,6 +29,14 @@ export const routes = createBrowserRouter([
           return { Component: Component.WorkflowBuilder }
         },
       },
+      {
+        path: 'profile',
+        lazy: async () => {
+          const Component = await import('../pages/profile/profile.tsx')
+
+          return { Component: Component.Profile }
+        },
+      },
     ],
   },
 ])
