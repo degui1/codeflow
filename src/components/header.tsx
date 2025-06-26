@@ -4,7 +4,7 @@ import { Button } from './ui/button'
 export function Header() {
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50 w-full border-b py-6 backdrop-blur">
-      <div className="container mx-auto flex items-center justify-between px-4">
+      <div className="sticky container mx-auto flex items-center justify-between px-4">
         <Link to="/" className="text-2xl font-bold">
           CodeFlow
         </Link>
