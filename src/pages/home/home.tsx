@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Feature } from '@/components/home/feature'
 import { Footer } from '@/components/footer'
-import '../../utils/i18n'
 import { useTranslation } from 'react-i18next'
 
 export function Home() {

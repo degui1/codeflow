@@ -1,4 +1,3 @@
-import '../utils/i18n'
 import { useTranslation } from 'react-i18next'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useEffect, useState } from 'react'
