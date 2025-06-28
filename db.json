@@ -1,0 +1,59 @@
+{
+  "templates": [
+    {
+      "id": "1",
+      "title": "Template Push",
+      "idAction": "1",
+      "idAuthor": 1,
+      "author": "Pedro Santos"
+    },
+    {
+      "id": "2",
+      "title": "Template Pull",
+      "idAction": "2",
+      "idAuthor": 2,
+      "author": "Guilherme Gonçalves"
+    },
+    {
+      "id": "3",
+      "title": "Template Fixed",
+      "idAction": "3",
+      "idAuthor": 3,
+      "author": "Guilherme Montoro"
+    },
+    {
+      "id": "4",
+      "title": "Template Animals",
+      "idAction": "2",
+      "idAuthor": 4,
+      "author": "Vinicius Sanches"
+    },
+    {
+      "id": "5",
+      "title": "Template Clean",
+      "idAction": "3",
+      "idAuthor": 5,
+      "author": "Lecote"
+    },
+    {
+      "id": "6",
+      "title": "Template Full",
+      "idAction": "1",
+      "idAuthor": 6,
+      "author": "João da Silva"
+    },
+    {
+      "id": "7",
+      "title": "Template Top",
+      "idAction": "1",
+      "idAuthor": 7,
+      "author": "Amanda Correia"
+    }
+  ],
+  "likes": [
+    {
+      "id": "1",
+      "like": true
+    }
+  ]
+}
