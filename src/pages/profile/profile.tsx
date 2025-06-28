@@ -1,6 +1,4 @@
-import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { ThumbsUp } from 'lucide-react'
-
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -10,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Avatar } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export function Profile() {
   return (

@@ -1,6 +1,15 @@
 import { Button } from '@/components/ui/button'
 import { Feature } from '@/components/home/feature'
 import { Footer } from '@/components/footer'
+import {
+  MdOutlineVerified,
+  MdOutlineRocketLaunch,
+  MdConstruction,
+  MdOutlineRateReview,
+  MdOutlinePolyline,
+  MdOutlinePsychology,
+  MdLightbulbOutline,
+} from 'react-icons/md'
 import '../../utils/i18n'
 import { useTranslation } from 'react-i18next'
 
@@ -8,12 +17,16 @@ export function Home() {
   const { t } = useTranslation()
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center">
-      <main className="container mx-auto flex min-h-dvh max-w-3xl scroll-mt-32 flex-col justify-center space-y-8 text-center">
+    <div className="i flex flex-1 flex-col items-center justify-center">
+      <div className="pointer-events-none absolute -top-1/3 left-1/2 -z-10 h-[130rem] w-full max-w-[120rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gray-500 opacity-12 blur-[120px] lg:h-[150rem]" />
+      <main
+        id="home"
+        className="container mx-auto -mt-25 flex h-screen max-w-3xl scroll-mt-32 flex-col justify-center space-y-8 text-center"
+      >
         <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
           {t('Construa e baixe workflows')}
         </h1>
-        <p className="text-muted-foreground mx-auto w-xs sm:text-xl lg:max-w-2xl">
+        <p className="text-muted-foreground mx-auto w-xs sm:w-xl sm:text-xl lg:w-6/12">
           {t(
             'Otimização da geração de workflows: uma solução prática, segura e acessível',
           )}
@@ -28,7 +41,7 @@ export function Home() {
       <section className="flex min-h-dvh flex-col justify-center space-y-10 text-center">
         <span
           id="features-section"
-          className="scroll-mt-48 text-3xl font-bold lg:text-4xl"
+          className="mb-5 scroll-mt-48 text-3xl font-bold lg:text-4xl"
         >
           {t('Domine o YAML com Codeflow')}
         </span>
@@ -39,42 +52,42 @@ export function Home() {
         </p>
         <div className="flex max-w-250 flex-wrap justify-center gap-5 lg:flex-row">
           <Feature
-            src="/feature_build.svg"
+            icon={<MdConstruction size={35} />}
             title={t('Construa visualmente')}
             desc={t(
               'Crie arquivos YAML válidos usando uma interface intuitiva.',
             )}
           />
           <Feature
-            src="/feature_learning_curve.svg"
+            icon={<MdOutlineRocketLaunch size={35} />}
             title={t('Rápida curva de aprendizado')}
             desc={t(
               'Entenda a lógica do YAML através de tutoriais e feedback em tempo real.',
             )}
           />
           <Feature
-            src="/feature_error_free.svg"
+            icon={<MdOutlineVerified size={35} />}
             title={t('Sintaxe sem erros')}
             desc={t(
               'Evite erros de indentação e formatação com a validação de sintaxe integrada.',
             )}
           />
           <Feature
-            src="/feature_intellisense.svg"
+            icon={<MdOutlineRateReview size={35} />}
             title="IntelliSense"
             desc={t(
               'Obtenha dicas de preenchimento automático enquanto você cria arquivos YAML.',
             )}
           />
           <Feature
-            src="/feature_integrate.svg"
-            title={t('Exporte e integre')}
+            icon={<MdOutlinePolyline size={35} />}
+            title={t('Exporte & Integre')}
             desc={t(
               'Exporte seus arquivos YAML prontos para ferramentas de CI/CD, como GitHub Actions.',
             )}
           />
           <Feature
-            src="/feature_practice.svg"
+            icon={<MdOutlinePsychology size={35} />}
             title={t('Aprenda fazendo')}
             desc={t(
               'Adquira proficiência em YAML, com a construção prática de pipelines reais.',
@@ -87,7 +100,7 @@ export function Home() {
           <span className="flex items-center text-center text-2xl leading-relaxed font-semibold lg:text-4xl">
             {t('Crie com cliques')}
           </span>
-          <img src="/light_bulb.svg" alt="" width={70} height={70} />
+          <MdLightbulbOutline size={70} />
           <span className="flex items-center text-center text-2xl leading-relaxed font-semibold lg:text-4xl">
             {t('Aprenda na prática')}
           </span>
