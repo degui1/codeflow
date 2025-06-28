@@ -1,0 +1,33 @@
+{
+  "translation": {
+    "Inicio": "Home",
+    "Comunidade": "Community",
+    "Ferramentas": "Tools",
+    "Entrar": "Sign in",
+    "Construa e baixe workflows": "Build and download workflows",
+    "Otimização da geração de workflows: uma solução prática, segura e acessível": "Workflow generation optimization: a practical, safe, and affordable solution",
+    "Comece agora": "Get started now",
+    "Veja a comunidade": "See the community",
+    "Domine o YAML com Codeflow": "Master YAML with Codeflow",
+    "Codeflow oferece uma maneira prática e intuitiva de aprender e construir arquivos YAML, combinando edição visual com orientações inteligentes para automação do mundo real": "Codeflow offers a practical and intuitive way to learn and build YAML files, combining visual editing with smart guidance for real-world automation",
+    "Construa visualmente": "Build visually",
+    "Crie arquivos YAML válidos usando uma interface intuitiva.": "Create valid YAML files using an intuitive interface.",
+    "Rápida curva de aprendizado": "Fast learning curve",
+    "Entenda a lógica do YAML através de tutoriais e feedback em tempo real.": "Understand YAML logic through tutorials and real-time feedback.",
+    "Sintaxe sem erros": "Error-free syntax",
+    "Evite erros de indentação e formatação com a validação de sintaxe integrada.": "Avoid indentation and formatting errors with built-in syntax validation.",
+    "Obtenha dicas de preenchimento automático enquanto você cria arquivos YAML.": "Get autocomplete tips while creating YAML files.",
+    "Exporte e integre": "Export and integrate",
+    "Exporte seus arquivos YAML prontos para ferramentas de CI/CD, como GitHub Actions.": "Export your YAML files ready for CI/CD tools like GitHub Actions.",
+    "Aprenda fazendo": "Learn by doing",
+    "Adquira proficiência em YAML, com a construção prática de pipelines reais.": "Gain YAML proficiency by practically building real pipelines.",
+    "Crie com cliques": "Create with clicks",
+    "Aprenda na prática": "Hands-on learning",
+    "Começar agora": "Start now",
+    "Visão geral": "Overview",
+    "Sobre nós": "About us",
+    "Perguntas frequentes": "Frequently Asked Questions",
+    "Recursos": "Resources",
+    "Todos os direitos reservados.": "All rights reserved"
+  }
+}

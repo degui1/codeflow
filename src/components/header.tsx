@@ -1,7 +1,12 @@
 import { Link } from 'react-router'
 import { Button } from './ui/button'
+import '../utils/i18n'
+import { useTranslation } from 'react-i18next'
+import ToggleLanguage from './toggleLanguage'
 
 export function Header() {
+  const { t } = useTranslation()
+
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 border-b py-6 backdrop-blur">
       <div className="container mx-auto flex items-center justify-between px-4">
@@ -20,10 +25,10 @@ export function Header() {
                   ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
               }
             >
-              <Link to="/">Home</Link>
+              <Link to="/">{t('Inicio')}</Link>
             </Button>
             <Button variant="link" asChild>
-              <Link to="/community">Community</Link>
+              <Link to="/community">{t('Comunidade')}</Link>
             </Button>
             <Button variant="link" asChild>
               <Link to="/workflow-builder">Builder</Link>
@@ -38,17 +43,20 @@ export function Header() {
               }
               className="cursor-pointer"
             >
-              <Link to="/">Ferramentas</Link>
+              <Link to="/">{t('Ferramentas')}</Link>
             </Button>
           </ul>
         </nav>
 
+        <div></div>
+
         <div className="flex gap-1">
+          <ToggleLanguage style={{ marginRight: 20 }} />
           <Button variant="ghost" asChild>
-            <Link to="/">Entrar</Link>
+            <Link to="/">{t('Entrar')}</Link>
           </Button>
           <Button asChild>
-            <Link to="/">Comece agora</Link>
+            <Link to="/">{t('Comece agora')}</Link>
           </Button>
         </div>
       </div>
