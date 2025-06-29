@@ -24,14 +24,8 @@ export function Footer() {
         <nav>
           <span className="font-semibold">{t('Recursos')}</span>
           <ul className="text-muted-foreground flex flex-col gap-2 py-2">
-            <li
-              onClick={() =>
-                document
-                  .getElementsByTagName('main')[0]
-                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-              }
-            >
-              <Link to="/">Home</Link>
+            <li>
+              <Link to="/#home">Home</Link>
             </li>
             <li>
               <Link to="/community">{t('Comunidade')}</Link>
