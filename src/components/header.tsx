@@ -1,6 +1,5 @@
 import { Link } from 'react-router'
 import { Button } from './ui/button'
-import '../utils/i18n'
 import { useTranslation } from 'react-i18next'
 import ToggleLanguage from './toggleLanguage'
 import { useUserInfo } from '@/hooks/useUserInfo'

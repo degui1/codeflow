@@ -7,8 +7,9 @@ export function CoreLayout() {
       <div className="sticky top-0 z-50 w-full">
         <Header />
       </div>
-
-      <Outlet />
+      <div className="flex flex-1 flex-col">
+        <Outlet />
+      </div>
     </div>
   )
 }

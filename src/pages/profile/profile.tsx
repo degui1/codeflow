@@ -12,9 +12,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export function Profile() {
   return (
-    <div className="m-5 flex flex-col gap-7 space-y-5 md:flex-row-reverse">
-      <aside className="flex-1">
-        <Card className="flex w-full flex-col items-center justify-between p-6 shadow-lg">
+    <div className="flex w-full max-w-[1360px] flex-1 flex-col gap-7 p-5 lg:flex-row-reverse lg:self-center">
+      <aside className="flex w-full flex-col items-center justify-between space-y-5 sm:flex-1 md:space-y-0 lg:max-w-[300px]">
+        <Card className="flex w-full flex-col items-center justify-between p-6 shadow-lg md:h-full">
           <CardHeader className="flex flex-col items-center">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
@@ -45,16 +45,16 @@ export function Profile() {
         </Card>
       </aside>
 
-      <main className="grid w-full grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
+      <main className="grid w-full max-w-[960px] grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => {
           return (
-            <article key={i} className="space-y-1">
+            <article key={i} className="">
               <header>
                 <h1>Title</h1>
               </header>
 
-              <main>
-                <Card className="flex h-60 flex-col justify-between p-4">
+              <main className="">
+                <Card className="flex h-60 flex-col justify-between p-4 md:h-40">
                   <div className="flex w-full flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
                     <Button variant="outline">Visualize</Button>
                     <Button variant="outline">Download</Button>
@@ -62,7 +62,7 @@ export function Profile() {
                 </Card>
               </main>
 
-              <footer className="flex w-full items-baseline justify-between gap-15 text-xs">
+              <footer className="flex w-full items-baseline justify-between text-xs">
                 <span className="text-left font-bold text-gray-400">
                   by TestUser
                 </span>
