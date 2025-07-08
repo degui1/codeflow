@@ -9,15 +9,19 @@ export const routes = createBrowserRouter([
     path: '/',
     element: <CoreLayout />,
     loader: async () => {
-      const response = await apiCall('GET', '/user')
-      const json = await response.json()
-      if (json != undefined) {
-        const { success, data, error } = userSchema.safeParse(json)
-        if (error) {
-          console.log(error)
+      try {
+        const response = await apiCall('GET', '/user')
+        const json = await response.json()
+        if (json != undefined) {
+          const { success, data, error } = userSchema.safeParse(json)
+          if (error) {
+            console.log(error)
+          }
+          if (!success) return undefined
+          return data.response
         }
-        if (!success) return undefined
-        return data.response
+      } catch (error) {
+        return undefined
       }
     },
     children: [
