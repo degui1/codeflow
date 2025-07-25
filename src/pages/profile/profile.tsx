@@ -1,5 +1,14 @@
+import { useState } from 'react'
+
 import { ThumbsUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from './components/Dialog'
 import {
   Card,
   CardContent,
@@ -9,8 +18,11 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Input } from '@/components/ui/input'
 
 export function Profile() {
+  const [open, setOpen] = useState(false)
+
   return (
     <div className="flex w-full max-w-[1360px] flex-1 flex-col gap-7 p-5 lg:flex-row-reverse lg:self-center">
       <aside className="flex w-full flex-col items-center justify-between space-y-5 sm:flex-1 md:space-y-0 lg:max-w-[300px]">
@@ -40,7 +52,44 @@ export function Profile() {
           </CardContent>
 
           <CardFooter className="w-full px-0">
-            <Button className="flex-1">Settings</Button>
+            <Button className="flex-1" onClick={() => setOpen(true)}>
+              Settings
+            </Button>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogContent className="w-full">
+                <DialogHeader className="">
+                  <DialogTitle className="text-center">
+                    Edit Profile
+                  </DialogTitle>
+                </DialogHeader>
+                <label>Name</label>
+                <Input />
+                <label>Username</label>
+                <Input />
+                <label>E-mail</label>
+                <Input />
+                <label>Profile Picture</label>
+                <Input />
+                <Button className="border-2 border-red-600 bg-transparent text-center font-bold text-red-600 hover:bg-red-600 hover:text-white">
+                  Delete Account
+                </Button>
+
+                <DialogFooter>
+                  <Button
+                    className="bg-transparent text-amber-50 hover:text-zinc-800"
+                    onClick={() => setOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    className="bg-transparent text-amber-50 hover:text-zinc-800"
+                    onClick={() => setOpen(false)}
+                  >
+                    Save
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </CardFooter>
         </Card>
       </aside>
@@ -77,6 +126,7 @@ export function Profile() {
             </article>
           )
         })}
+        <footer>teste</footer>
       </main>
     </div>
   )

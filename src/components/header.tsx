@@ -1,3 +1,4 @@
+import { AlignJustify } from 'lucide-react'
 import { Link } from 'react-router'
 import { Button } from './ui/button'
 import { useTranslation } from 'react-i18next'
@@ -7,9 +8,27 @@ import { useUserLogin } from '@/hooks/useUserLogin'
 import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
 import { ScrollToHash } from '@/utils/scrollToHash'
 
+import { useEffect, useState } from 'react'
+
+export function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkIsMobile = () => setIsMobile(window.innerWidth < breakpoint)
+
+    checkIsMobile()
+    window.addEventListener('resize', checkIsMobile)
+    console.log('renderizou')
+    return () => window.removeEventListener('resize', checkIsMobile)
+  }, [breakpoint])
+
+  return isMobile
+}
+
 export function Header() {
   const { t } = useTranslation()
   const userInfo = useUserInfo()
+  const isMobile = useIsMobile()
 
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/30 border-b py-3 backdrop-blur">
@@ -19,26 +38,37 @@ export function Header() {
           <img src="/codeflow_logo.png" alt="" width={60} height={80} />
         </Link>
 
-        <nav>
-          <ul>
-            <Button variant="link" asChild>
-              <a href="/#home">Home</a>
-            </Button>
-            <Button variant="link" asChild>
-              <Link to="/community">{t('Comunidade')}</Link>
-            </Button>
-            <Button variant="link" asChild>
-              <Link to="/workflow-builder">Builder</Link>
-            </Button>
-            <Button variant="link" asChild>
-              <a href="/#features-section">Ferramentas</a>
-            </Button>
-          </ul>
+        <nav className="flex items-center space-x-4">
+          {!isMobile && (
+            <>
+              <ul>
+                <Button variant="link" asChild>
+                  <a href="/#home">Home</a>
+                </Button>
+                <Button variant="link" asChild>
+                  <Link to="/community">{t('Comunidade')}</Link>
+                </Button>
+                <Button variant="link" asChild>
+                  <Link to="/workflow-builder">Builder</Link>
+                </Button>
+                <Button variant="link" asChild>
+                  <a href="/#features-section">Ferramentas</a>
+                </Button>
+              </ul>
+
+              <ToggleLanguage className="block" />
+            </>
+          )}
+
+          {isMobile && (
+            <ul>
+              <AlignJustify />
+            </ul>
+          )}
         </nav>
 
         <div></div>
         <div className="flex gap-1">
-          <ToggleLanguage style={{ marginRight: 20 }} />
           {!userInfo && (
             <>
               <Button
