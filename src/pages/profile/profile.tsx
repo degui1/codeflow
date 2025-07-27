@@ -1,7 +1,18 @@
-import { useState } from 'react'
+import { /*useEffect,*/ useState } from 'react'
 
 import { ThumbsUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationEllipsis,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from './components/pagination'
+
 import {
   Dialog,
   DialogContent,
@@ -19,6 +30,7 @@ import {
 } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Input } from '@/components/ui/input'
+//import { apiCall } from '@/api/api-client'
 
 export function Profile() {
   const [open, setOpen] = useState(false)
@@ -126,7 +138,25 @@ export function Profile() {
             </article>
           )
         })}
-        <footer>teste</footer>
+        <footer className="col-span-full flex justify-center">
+          <Pagination className="">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+                <PaginationLink href="#">2</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </footer>
       </main>
     </div>
   )

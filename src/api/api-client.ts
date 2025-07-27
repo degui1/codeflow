@@ -19,5 +19,5 @@ type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 const API_URL = import.meta.env.VITE_API_BASE_URL
 
 export function apiAuth() {
-  window.location.href = API_URL + '/auth/github'
+  window.location.href = 'http://localhost:3000' + '/auth/github'
 }
