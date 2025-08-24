@@ -7,6 +7,14 @@ import { useUserInfo } from '@/hooks/useUserInfo'
 import { useUserLogin } from '@/hooks/useUserLogin'
 import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
 import { ScrollToHash } from '@/utils/scrollToHash'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@radix-ui/react-dropdown-menu'
 
 import { useEffect, useState } from 'react'
 
@@ -62,7 +70,22 @@ export function Header() {
 
           {isMobile && (
             <ul>
-              <AlignJustify />
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <AlignJustify />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Home</DropdownMenuLabel>
+                  <DropdownMenuItem>Comunity</DropdownMenuItem>
+                  <DropdownMenuItem>Builder</DropdownMenuItem>
+                  <DropdownMenuItem>Ferramentas</DropdownMenuItem>
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <ToggleLanguage />
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </DropdownMenuContent>
+              </DropdownMenu>
             </ul>
           )}
         </nav>

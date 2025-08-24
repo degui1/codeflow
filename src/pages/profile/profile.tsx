@@ -1,4 +1,4 @@
-import { /*useEffect,*/ useState } from 'react'
+import { useState } from 'react'
 
 import { ThumbsUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -20,6 +20,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from './components/Dialog'
+
 import {
   Card,
   CardContent,
@@ -30,10 +31,34 @@ import {
 } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Input } from '@/components/ui/input'
+import { useQuery } from '@tanstack/react-query'
+import ProfileService from '@/services/ProfileService'
+import { Template } from '../community/community'
 //import { apiCall } from '@/api/api-client'
+
+export type User = {
+  email: string
+  image: string
+  name: string
+  username: string
+}
+
+type UserPosts = {
+  posts: Template[]
+}
 
 export function Profile() {
   const [open, setOpen] = useState(false)
+
+  const { data: dataUser } = useQuery<User>({
+    queryKey: ['userData'],
+    queryFn: ProfileService.getUserData,
+  })
+
+  const { data: dataUserHistory } = useQuery<UserPosts>({
+    queryKey: ['userDataHistory'],
+    queryFn: ProfileService.getHistory,
+  })
 
   return (
     <div className="flex w-full max-w-[1360px] flex-1 flex-col gap-7 p-5 lg:flex-row-reverse lg:self-center">
@@ -46,21 +71,33 @@ export function Profile() {
             </Avatar>
 
             <div className="flex flex-col items-center">
-              <CardTitle className="text-white">Username</CardTitle>
-              <CardDescription>username@gmail.com</CardDescription>
+              <CardTitle className="text-white">
+                {dataUser?.username ?? 'Anonimo'}
+              </CardTitle>
+              <CardDescription>{dataUser?.email}</CardDescription>
             </div>
           </CardHeader>
 
           <CardContent className="w-full flex-col space-y-4">
-            {[1, 2].map((value) => (
-              <div
-                key={value}
-                className="flex flex-1 justify-between rounded-md px-4 py-2"
-              >
-                <span>Posts</span>
-                <span className="font-bold">8</span>
-              </div>
-            ))}
+            <div className="flex flex-1 justify-between rounded-md px-4 py-2">
+              <span>Posts</span>
+              <span className="font-bold">
+                {Array.isArray(dataUserHistory?.posts)
+                  ? dataUserHistory.posts.length
+                  : 0}
+              </span>
+            </div>
+            <div className="flex flex-1 justify-between rounded-md px-4 py-2">
+              <span>Likes</span>
+              <span className="font-bold">
+                {Array.isArray(dataUserHistory?.posts)
+                  ? dataUserHistory.posts.reduce(
+                      (acc, curr) => acc + (curr._count?.Like ?? 0),
+                      0,
+                    )
+                  : 0}
+              </span>
+            </div>
           </CardContent>
 
           <CardFooter className="w-full px-0">
@@ -82,7 +119,10 @@ export function Profile() {
                 <Input />
                 <label>Profile Picture</label>
                 <Input />
-                <Button className="border-2 border-red-600 bg-transparent text-center font-bold text-red-600 hover:bg-red-600 hover:text-white">
+                <Button
+                  onClick={() => ProfileService.deleteAccount()}
+                  className="border-2 border-red-600 bg-transparent text-center font-bold text-red-600 hover:bg-red-600 hover:text-white"
+                >
                   Delete Account
                 </Button>
 
@@ -107,14 +147,14 @@ export function Profile() {
       </aside>
 
       <main className="grid w-full max-w-[960px] grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => {
-          return (
-            <article key={i} className="">
+        {Array.isArray(dataUserHistory?.posts) ? (
+          dataUserHistory.posts.map((item, i) => (
+            <article key={i}>
               <header>
-                <h1>Title</h1>
+                <h1>{item.title}</h1>
               </header>
 
-              <main className="">
+              <main>
                 <Card className="flex h-60 flex-col justify-between p-4 md:h-40">
                   <div className="flex w-full flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
                     <Button variant="outline">Visualize</Button>
@@ -125,19 +165,21 @@ export function Profile() {
 
               <footer className="flex w-full items-baseline justify-between text-xs">
                 <span className="text-left font-bold text-gray-400">
-                  by TestUser
+                  by {dataUser?.username}
                 </span>
-
                 <div className="text-right font-bold text-gray-400">
                   <Button size="icon" variant="ghost">
                     <ThumbsUp />
                   </Button>
-                  <span>10</span>
+                  <span>{item._count?.Like ?? 0}</span>
                 </div>
               </footer>
             </article>
-          )
-        })}
+          ))
+        ) : (
+          <span className="m-auto">Nenhum template encontrado</span>
+        )}
+
         <footer className="col-span-full flex justify-center">
           <Pagination className="">
             <PaginationContent>
