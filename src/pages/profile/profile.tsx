@@ -1,4 +1,4 @@
-import { ThumbsUp } from 'lucide-react'
+// import { ThumbsUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -9,8 +9,14 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useUserInfo } from '@/hooks/useUserInfo'
+// import { FlowCanvas } from '@/components/ui/flow-canvas'
+import { FlowPreview } from '@/components/ui/flow-preview'
+import { mockFlows } from '@/components/ui/mockFlows'
 
 export function Profile() {
+  const { data: userInfo } = useUserInfo()
+
   return (
     <div className="flex w-full max-w-[1360px] flex-1 flex-col gap-7 p-5 lg:flex-row-reverse lg:self-center">
       <aside className="flex w-full flex-col items-center justify-between space-y-5 sm:flex-1 md:space-y-0 lg:max-w-[300px]">
@@ -22,8 +28,8 @@ export function Profile() {
             </Avatar>
 
             <div className="flex flex-col items-center">
-              <CardTitle className="text-white">Username</CardTitle>
-              <CardDescription>username@gmail.com</CardDescription>
+              <CardTitle className="text-white">{userInfo?.username}</CardTitle>
+              <CardDescription>{userInfo?.email}</CardDescription>
             </div>
           </CardHeader>
 
@@ -46,18 +52,18 @@ export function Profile() {
       </aside>
 
       <main className="grid w-full max-w-[960px] grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => {
+        {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => { */}
+        {mockFlows.map((_, i) => {
           return (
             <article key={i} className="">
-              <header>
+              {/* <header>
                 <h1>Title</h1>
               </header>
 
               <main className="">
-                <Card className="flex h-60 flex-col justify-between p-4 md:h-40">
-                  <div className="flex w-full flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
-                    <Button variant="outline">Visualize</Button>
-                    <Button variant="outline">Download</Button>
+                <Card className="flex h-60 flex-col justify-between p-0 md:h-40">
+                  <div className="flex h-full w-full flex-1 items-center justify-center p-0">
+                    <FlowCanvas code={code} />
                   </div>
                 </Card>
               </main>
@@ -73,7 +79,14 @@ export function Profile() {
                   </Button>
                   <span>10</span>
                 </div>
-              </footer>
+              </footer> */}
+              <FlowPreview
+                id={_.id}
+                code={_.code}
+                author={_.author}
+                likes={_.likes}
+                title={_.title}
+              />
             </article>
           )
         })}
