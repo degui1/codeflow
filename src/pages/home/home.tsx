@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button'
 import { Feature } from '@/components/home/feature'
-import { Footer } from '@/components/footer'
 import {
   MdOutlineVerified,
   MdOutlineRocketLaunch,
@@ -108,7 +107,6 @@ export function Home() {
           {t('Começar agora')}
         </Button>
       </section>
-      <Footer />
     </div>
   )
 }

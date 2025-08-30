@@ -1,29 +1,11 @@
 import { createBrowserRouter } from 'react-router'
 import { CoreLayout } from '../layouts/core/index.tsx'
 import { Home } from '../pages/home/home.tsx'
-import { apiCall } from '@/api/api-client.ts'
-import { userSchema } from '@/schemas/UserSchema.ts'
 
 export const routes = createBrowserRouter([
   {
     path: '/',
     element: <CoreLayout />,
-    loader: async () => {
-      try {
-        const response = await apiCall('GET', '/user')
-        const json = await response.json()
-        if (json != undefined) {
-          const { success, data, error } = userSchema.safeParse(json)
-          if (error) {
-            console.log(error)
-          }
-          if (!success) return undefined
-          return data.response
-        }
-      } catch (error) {
-        return undefined
-      }
-    },
     children: [
       {
         index: true,
