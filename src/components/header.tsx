@@ -9,7 +9,7 @@ import { ScrollToHash } from '@/utils/scrollToHash'
 
 export function Header() {
   const { t } = useTranslation()
-  const { data: userInfo, isLoading, isError, isSuccess } = useUserInfo()
+  const { data: userInfo, isLoading, isSuccess } = useUserInfo()
 
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/30 border-b py-3 backdrop-blur">

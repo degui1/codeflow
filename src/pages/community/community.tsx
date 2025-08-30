@@ -1,20 +1,10 @@
 import { useMemo, useState } from 'react'
+
 import { useQuery } from '@tanstack/react-query'
-// import { Card } from '@/components/card'
 import CommunityService from '@/services/CommunityService'
 import { Filter } from '@/components/filter'
 import { mockFlows } from '@/components/ui/mockFlows'
 import { FlowPreview, Template } from '@/components/ui/flow-preview'
-
-// export interface Template {
-//   id: number
-//   title: string
-//   code: string
-//   idAuthor: number
-//   idAction: string
-//   author: string
-//   likes: number
-// }
 
 export function Community() {
   const [filter, setFilter] = useState<Filter>({

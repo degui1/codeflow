@@ -1,13 +1,5 @@
 import { Template } from './flow-preview'
 
-interface Props {
-  id: number
-  title: string
-  code: string
-  author: string
-  likes: number
-}
-
 export const mockFlows: Template[] = [
   {
     id: 1,
