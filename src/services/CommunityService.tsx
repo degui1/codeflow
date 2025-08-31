@@ -1,15 +1,10 @@
-import axios from 'axios'
-
-const url = 'http://localhost:3000'
+import { apiCall } from '@/api/api-client'
 
 const CommunityService = {
   getTemplates: async () => {
-    const res = await axios.get(`${url}/templates`)
-    return res.data
-  },
+    const res = await apiCall('GET', '/community')
 
-  deleteTemplate: async (id: string) => {
-    return axios.delete(`${url}/templates/${id}`)
+    return res.json()
   },
 }
 
