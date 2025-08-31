@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 
 import { ThumbsUp } from 'lucide-react'
@@ -63,7 +62,6 @@ export function Profile() {
     queryFn: ProfileService.getHistory,
   })
 
-
   return (
     <div className="flex w-full max-w-[1360px] flex-1 flex-col gap-7 p-5 lg:flex-row-reverse lg:self-center">
       <aside className="flex w-full flex-col items-center justify-between space-y-5 sm:flex-1 md:space-y-0 lg:max-w-[300px]">
@@ -75,12 +73,10 @@ export function Profile() {
             </Avatar>
 
             <div className="flex flex-col items-center">
-
               <CardTitle className="text-white">
                 {dataUser?.username ?? 'Anonimo'}
               </CardTitle>
               <CardDescription>{dataUser?.email}</CardDescription>
-
             </div>
           </CardHeader>
 
@@ -153,7 +149,6 @@ export function Profile() {
       </aside>
 
       <main className="grid w-full max-w-[960px] grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
-
         {Array.isArray(dataUserHistory?.posts) ? (
           dataUserHistory.posts.map((item, i) => (
             <article key={i}>
@@ -166,7 +161,6 @@ export function Profile() {
                   <div className="flex w-full flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
                     <Button variant="outline">Visualize</Button>
                     <Button variant="outline">Download</Button>
-
                   </div>
                 </Card>
               </main>
@@ -181,14 +175,7 @@ export function Profile() {
                   </Button>
                   <span>{item._count?.Like ?? 0}</span>
                 </div>
-              </footer> */}
-              <FlowPreview
-                id={_.id}
-                code={_.code}
-                author={_.author}
-                likes={_.likes}
-                title={_.title}
-              />
+              </footer>
             </article>
           ))
         ) : (

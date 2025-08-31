@@ -36,11 +36,9 @@ export function useIsMobile(breakpoint = 768) {
 export function Header() {
   const { t } = useTranslation()
 
-  const userInfo = useUserInfo()
   const isMobile = useIsMobile()
 
   const { data: userInfo, isLoading, isSuccess } = useUserInfo()
-
 
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/30 border-b py-3 backdrop-blur">
@@ -98,7 +96,6 @@ export function Header() {
         <div className="flex gap-1">
           <ToggleLanguage style={{ marginRight: 20 }} />
           {!userInfo && !isLoading && (
-
             <>
               <Button
                 variant="ghost"
