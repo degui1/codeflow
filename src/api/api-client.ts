@@ -1,4 +1,4 @@
-export function apiCall(
+export function request(
   method: HttpMethod,
   path: string,
   body?: object,
@@ -18,6 +18,6 @@ export function apiCall(
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 const API_URL = import.meta.env.VITE_API_BASE_URL
 
-export function apiAuth() {
+export function auth() {
   window.location.href = API_URL + '/auth/github'
 }

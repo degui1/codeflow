@@ -35,8 +35,12 @@ export function useIsMobile(breakpoint = 768) {
 
 export function Header() {
   const { t } = useTranslation()
+
   const userInfo = useUserInfo()
   const isMobile = useIsMobile()
+
+  const { data: userInfo, isLoading, isSuccess } = useUserInfo()
+
 
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/30 border-b py-3 backdrop-blur">
@@ -92,7 +96,9 @@ export function Header() {
 
         <div></div>
         <div className="flex gap-1">
-          {!userInfo && (
+          <ToggleLanguage style={{ marginRight: 20 }} />
+          {!userInfo && !isLoading && (
+
             <>
               <Button
                 variant="ghost"
@@ -110,11 +116,11 @@ export function Header() {
             </>
           )}
         </div>
-        {userInfo && (
+        {isSuccess && (
           <div>
             <Avatar>
               <AvatarImage
-                src={userInfo?.image}
+                src={userInfo?.image ?? undefined}
                 alt={userInfo?.username}
                 width={60}
                 height={80}
@@ -131,11 +137,12 @@ export function Header() {
                   window.location.href = '/profile'
                 }}
               >
-                BO
+                {userInfo?.username?.charAt(0).toUpperCase() ?? 'U'}
               </AvatarFallback>
             </Avatar>
           </div>
         )}
+        {/* {isError && <div>Erro</div>} */}
       </div>
     </header>
   )

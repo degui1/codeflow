@@ -1,9 +1,12 @@
 import { useMemo, useState } from 'react'
+
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Card } from '@/components/card'
 import { Filter } from '@/components/filter'
 import CommunityService from '@/services/CommunityService'
-
+import { mockFlows } from '@/components/ui/mockFlows'
+import { FlowPreview, Template } from '@/components/ui/flow-preview'
+        
 export interface Template {
   id: number
   title: string
@@ -48,6 +51,7 @@ export function Community() {
   }, [])
 
   return (
+
     <div className="container m-6">
       <main className="grid w-full grid-cols-3 gap-2">
         <h1 className="col-span-3 h-15 text-2xl font-bold">Community</h1>
@@ -64,6 +68,7 @@ export function Community() {
                 author={item.author}
                 description={item.description}
                 downloads={item.downloads}
+
               />
             ))}
           </div>

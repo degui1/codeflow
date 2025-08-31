@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Template } from '@/pages/community/community'
 import { Icons } from '@/assets/icons'
+
 import { Button } from './ui/button'
+import { Template } from './ui/flow-preview'
 
 interface DataProps {
   data: Template[]
