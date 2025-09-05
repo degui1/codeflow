@@ -36,6 +36,7 @@ import { Input } from '@/components/ui/input'
 import { useQuery } from '@tanstack/react-query'
 import ProfileService from '@/services/ProfileService'
 import { Template } from '../community/community'
+import { logout } from '../../hooks/useAuthChecker'
 //import { apiCall } from '@/api/api-client'
 
 export type User = {
@@ -102,9 +103,16 @@ export function Profile() {
             </div>
           </CardContent>
 
-          <CardFooter className="w-full px-0">
-            <Button className="flex-1" onClick={() => setOpen(true)}>
+          <CardFooter className="w-full flex-col px-0">
+            <Button className="m-2 w-full flex-1" onClick={() => setOpen(true)}>
               Settings
+            </Button>
+            <Button
+              variant="destructive"
+              className="w-full flex-1"
+              onClick={logout}
+            >
+              Sair
             </Button>
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogContent className="w-full">

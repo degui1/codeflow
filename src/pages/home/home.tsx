@@ -10,6 +10,7 @@ import {
   MdLightbulbOutline,
 } from 'react-icons/md'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 
 export function Home() {
   const { t } = useTranslation()
@@ -32,7 +33,7 @@ export function Home() {
         <div className="mx-auto space-x-2">
           <Button size="lg">{t('Comece agora')}</Button>
           <Button variant="ghost" size="lg">
-            {t('Veja a comunidade')}
+            <Link to="/community">{t('Veja a comunidade')}</Link>
           </Button>
         </div>
       </main>
