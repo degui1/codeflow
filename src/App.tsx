@@ -3,10 +3,15 @@ import { queryClient } from './lib/react-query'
 import { RouterProvider } from 'react-router'
 import { routes } from './routes/routes.tsx'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { AuthChecker } from './hooks/useAuthChecker.ts'
+import { useAuthChecker } from './hooks/useAuthChecker.ts'
+import { useEffect } from 'react'
 
 export function App() {
-  AuthChecker()
+  const { AuthChecker } = useAuthChecker()
+
+  useEffect(() => {
+    AuthChecker()
+  }, [])
 
   return (
     <QueryClientProvider client={queryClient}>

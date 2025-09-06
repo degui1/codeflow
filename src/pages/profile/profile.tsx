@@ -36,7 +36,7 @@ import { Input } from '@/components/ui/input'
 import { useQuery } from '@tanstack/react-query'
 import ProfileService from '@/services/ProfileService'
 import { Template } from '../community/community'
-import { logout } from '../../hooks/useAuthChecker'
+import { useAuthChecker } from '../../hooks/useAuthChecker'
 //import { apiCall } from '@/api/api-client'
 
 export type User = {
@@ -52,6 +52,7 @@ type UserPosts = {
 
 export function Profile() {
   const [open, setOpen] = useState(false)
+  const { logout } = useAuthChecker()
 
   const { data: dataUser } = useQuery<User>({
     queryKey: ['userData'],

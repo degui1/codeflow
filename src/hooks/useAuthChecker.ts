@@ -1,24 +1,26 @@
-import { useEffect } from 'react'
 import { authStore } from '@/stores/authStore.ts'
 import { getCookie } from './useGetCookie'
 
-export const AuthChecker = () => {
-  const authStoreInstance = authStore((state) => state)
+const AuthChecker = () => {
+  const authStoreInstance = authStore.getState()
   const token = getCookie('session_cookie')
+  const location = window.location.pathname // ou useLocation() se você mover isso pra um hook React
+  const isOnLoginPage = location === '/'
 
-  useEffect(() => {
-    if (token) {
-      authStoreInstance.setIsAuthenticated(true)
-    } else {
-      authStoreInstance.setIsAuthenticated(false)
+  if (token) {
+    authStoreInstance.setIsAuthenticated(true)
+  } else {
+    authStoreInstance.setIsAuthenticated(false)
+    if (!isOnLoginPage) {
+      window.location.href = '/'
     }
-  }, [token])
-
-  return null
+  }
 }
 
-export const logout = () => {
+const logout = () => {
   const authStoreInstance = authStore.getState()
   authStoreInstance.reset()
   window.location.href = '/'
 }
+
+export const useAuthChecker = () => ({ AuthChecker, logout })
