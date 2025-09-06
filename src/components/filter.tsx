@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Icons } from '@/assets/icons'
 
 import { Button } from './ui/button'
-import { Template } from './ui/flow-preview'
+import { Template } from '@/pages/community/community'
 
 interface DataProps {
   data: Template[]
