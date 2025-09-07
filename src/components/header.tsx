@@ -17,6 +17,7 @@ import {
 } from '@radix-ui/react-dropdown-menu'
 
 import { useEffect, useState } from 'react'
+import { authStore } from '@/stores/authStore'
 
 export function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(false)
@@ -26,7 +27,6 @@ export function useIsMobile(breakpoint = 768) {
 
     checkIsMobile()
     window.addEventListener('resize', checkIsMobile)
-    console.log('renderizou')
     return () => window.removeEventListener('resize', checkIsMobile)
   }, [breakpoint])
 
@@ -35,6 +35,7 @@ export function useIsMobile(breakpoint = 768) {
 
 export function Header() {
   const { t } = useTranslation()
+  const isAuthenticated = authStore((state) => state.isAuthenticated)
 
   const isMobile = useIsMobile()
 
@@ -65,8 +66,6 @@ export function Header() {
                   <a href="/#features-section">Ferramentas</a>
                 </Button>
               </ul>
-
-              <ToggleLanguage className="block" />
             </>
           )}
 
@@ -94,8 +93,23 @@ export function Header() {
 
         <div></div>
         <div className="flex gap-1">
-          <ToggleLanguage style={{ marginRight: 20 }} />
-          {!userInfo && !isLoading && (
+          <ToggleLanguage style={{ marginRight: 30 }} />
+          {isAuthenticated && (
+            <>
+              <Link to="/profile">
+                <Avatar>
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="@shadcn"
+                    width={50}
+                    className="rounded-4xl"
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </Link>
+            </>
+          )}
+          {!userInfo && !isLoading && !isAuthenticated && (
             <>
               <Button
                 variant="ghost"

@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Card } from '@/components/card'
 import { Filter } from '@/components/filter'
