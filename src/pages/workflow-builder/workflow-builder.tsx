@@ -1,3 +1,4 @@
+import { FlowCodePreview } from '@/components/workflow-builder/FlowCodePreview'
 import { useSocket } from '@/hooks/useSocket'
 import { useEffect } from 'react'
 
@@ -14,5 +15,14 @@ export function WorkflowBuilder() {
     }
   }, [io])
 
-  return <div>workflow-builder</div>
+  return (
+    <>
+      <div>workflow-builder</div>
+      <FlowCodePreview
+        yamlCode={
+          'name: GitHub Actions\non:  ["pull", "push"]\njobs:\n\truns-on: "ubunto"'
+        }
+      />
+    </>
+  )
 }

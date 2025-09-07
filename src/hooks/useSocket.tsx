@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { io } from 'socket.io-client'
 
 export function useSocket() {
-  const socket = io(import.meta.env.VITE_SOCKET_URL, {
+  const socket = io(import.meta.env.VITE_API_BASE_URL, {
     withCredentials: true,
   })
 
