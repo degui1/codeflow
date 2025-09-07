@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Card } from '@/components/card'
 import { Filter } from '@/components/filter'
@@ -12,6 +13,9 @@ export interface Template {
   idAuthor: number
   idAction: string
   author: string
+  _count: {
+    Like: number
+  }
 }
 
 export function Community() {

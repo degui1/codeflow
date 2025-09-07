@@ -1,8 +1,8 @@
-import { apiCall } from '@/api/api-client'
+import { request } from '@/api/api-client'
 
 const CommunityService = {
   getTemplates: async () => {
-    const res = await apiCall('GET', '/community')
+    const res = await request('GET', '/community')
 
     return res.json()
   },

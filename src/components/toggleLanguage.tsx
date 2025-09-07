@@ -19,7 +19,7 @@ const ToggleLanguage = ({ ...props }: React.ComponentProps<'div'>) => {
     setSelectedLanguage(lang ?? 'en')
   }, [i18n.language])
   return (
-    <div {...props} className="bg-accent rounded-4xl p-2">
+    <div {...props} className="bg-accent w-20 rounded-4xl p-2">
       <ToggleGroup
         type="single"
         size="sm"
