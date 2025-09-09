@@ -1,7 +1,7 @@
 import { ThumbsUp } from 'lucide-react'
 import { FlowCanvas } from './flow-canvas'
-import { Button } from './button'
-import { Card } from './card'
+import { Button } from './ui/button'
+import { Card } from './ui/card'
 import { useEffect, useState } from 'react'
 
 export interface Template {
