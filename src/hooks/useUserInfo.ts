@@ -2,22 +2,17 @@ import { request } from '@/api/api-client'
 import { userSchema } from '@/schemas/UserSchema'
 import { useQuery } from '@tanstack/react-query'
 
-// export const useUserInfo = () => {
-//   const userInfo = (useLoaderData() as UserInfo) || undefined
-
-//   return userInfo || null
-// }
 const fetchUserInfo = async () => {
-  const response = await request('GET', '/user')
+  const response = await request('GET', '/me')
   const json = await response.json()
+
   if (json != undefined) {
     const { success, data, error } = userSchema.safeParse(json)
-    console.log(json)
     if (error) {
-      console.log(error)
+      // console.log(error)
     }
     if (!success) return undefined
-    return data.response
+    return data
   }
 }
 

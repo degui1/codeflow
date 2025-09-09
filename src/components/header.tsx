@@ -18,6 +18,8 @@ import {
 
 import { useEffect, useState } from 'react'
 import { authStore } from '@/stores/authStore'
+import { ROUTES_PATHS } from '@/routes/paths'
+import { useRouter } from '@/hooks/useRouter'
 
 export function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(false)
@@ -40,6 +42,7 @@ export function Header() {
   const isMobile = useIsMobile()
 
   const { data: userInfo, isLoading, isSuccess } = useUserInfo()
+  const { navigate } = useRouter()
 
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/30 border-b py-3 backdrop-blur">
@@ -77,7 +80,7 @@ export function Header() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuLabel>Home</DropdownMenuLabel>
-                  <DropdownMenuItem>Comunity</DropdownMenuItem>
+                  <DropdownMenuItem>Community</DropdownMenuItem>
                   <DropdownMenuItem>Builder</DropdownMenuItem>
                   <DropdownMenuItem>Ferramentas</DropdownMenuItem>
                   <DropdownMenuItem>Profile</DropdownMenuItem>
@@ -96,7 +99,7 @@ export function Header() {
           <ToggleLanguage style={{ marginRight: 30 }} />
           {isAuthenticated && (
             <>
-              <Link to="/profile">
+              <Link to={ROUTES_PATHS.PROFILE}>
                 <Avatar>
                   <AvatarImage
                     src="https://github.com/shadcn.png"
@@ -119,10 +122,10 @@ export function Header() {
                   useUserLogin()
                 }}
               >
-                <Link to="/">{t('Entrar')}</Link>
+                <Link to={ROUTES_PATHS.HOME}>{t('Entrar')}</Link>
               </Button>
               <Button asChild>
-                <Link to="/">{t('Comece agora')}</Link>
+                <Link to={ROUTES_PATHS.HOME}>{t('Comece agora')}</Link>
               </Button>
             </>
           )}
@@ -138,14 +141,14 @@ export function Header() {
                 className="cursor-pointer"
                 onClick={(e) => {
                   e.preventDefault()
-                  window.location.href = '/profile'
+                  navigate('PROFILE')
                 }}
               ></AvatarImage>
               <AvatarFallback
                 className="cursor-pointer"
                 onClick={(e) => {
                   e.preventDefault()
-                  window.location.href = '/profile'
+                  navigate('PROFILE')
                 }}
               >
                 {userInfo?.username?.charAt(0).toUpperCase() ?? 'U'}
@@ -153,7 +156,6 @@ export function Header() {
             </Avatar>
           </div>
         )}
-        {/* {isError && <div>Erro</div>} */}
       </div>
     </header>
   )

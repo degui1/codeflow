@@ -1,10 +1,11 @@
 import { createBrowserRouter } from 'react-router'
 import { CoreLayout } from '../layouts/core/index.tsx'
 import { Home } from '../pages/home/home.tsx'
+import { ROUTES_PATHS } from './paths.ts'
 
 export const routes = createBrowserRouter([
   {
-    path: '/',
+    path: ROUTES_PATHS.HOME,
     element: <CoreLayout />,
     children: [
       {
@@ -12,7 +13,7 @@ export const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'community',
+        path: ROUTES_PATHS.COMMUNITY,
         lazy: async () => {
           const Component = await import('../pages/community/community.tsx')
 
@@ -20,7 +21,7 @@ export const routes = createBrowserRouter([
         },
       },
       {
-        path: 'workflow-builder',
+        path: ROUTES_PATHS.WORKFLOW_BUILDER,
         lazy: async () => {
           const Component = await import(
             '../pages/workflow-builder/workflow-builder.tsx'
@@ -30,7 +31,7 @@ export const routes = createBrowserRouter([
         },
       },
       {
-        path: 'profile',
+        path: ROUTES_PATHS.PROFILE,
         lazy: async () => {
           const Component = await import('../pages/profile/profile.tsx')
 
