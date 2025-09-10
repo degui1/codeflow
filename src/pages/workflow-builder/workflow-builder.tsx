@@ -5,6 +5,7 @@ import { SocketIOEvents } from '@/lib/socket-io/events'
 import { YamlSchema, yamlSchema } from '@/schemas/FlowSchema'
 import { FlowSelector } from './components/FlowSelector/FlowSelector'
 import { SafeSuspense } from '@/components/safe-suspense'
+import { FlowCodePreview } from '@/components/workflow-builder/FlowCodePreview'
 
 export function WorkflowBuilder() {
   const [schema, setSchema] = useState<YamlSchema | null>(null)
@@ -56,10 +57,16 @@ export function WorkflowBuilder() {
           <FlowSelector />
         </SafeSuspense>
       </div>
-
+      
       <section className="mx-5 flex w-full flex-col gap-3 lg:max-w-lg">
         {schema && <FlowForm schema={schema} />}
       </section>
+
+      <FlowCodePreview
+        yamlCode={
+          'name: GitHub Actions\non:  ["pull", "push"]\njobs:\n\truns-on: "ubunto"'
+        }
+      />
     </main>
   )
 }

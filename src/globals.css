@@ -112,3 +112,7 @@
 html {
   scroll-behavior: smooth;
 }
+
+.monaco-editor .monaco-editor-overlaymessage {
+  display: none !important;
+}
