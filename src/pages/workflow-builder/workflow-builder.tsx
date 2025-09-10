@@ -1,9 +1,10 @@
-import { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FlowForm } from './flow-form'
 import { socket } from '@/lib/socket-io/socket-io'
 import { SocketIOEvents } from '@/lib/socket-io/events'
 import { YamlSchema, yamlSchema } from '@/schemas/FlowSchema'
 import { FlowSelector } from './components/FlowSelector/FlowSelector'
+import { SafeSuspense } from '@/components/safe-suspense'
 
 export function WorkflowBuilder() {
   const [schema, setSchema] = useState<YamlSchema | null>(null)
@@ -49,11 +50,11 @@ export function WorkflowBuilder() {
   }, [])
 
   return (
-    <main className="my-auto flex w-full flex-col items-center space-y-3">
+    <main className="flex w-full flex-col items-center space-y-3">
       <div className="mx-5 flex w-full flex-col gap-3 lg:max-w-lg">
-        <Suspense fallback={<div>loading</div>}>
+        <SafeSuspense fallback={<div>loading</div>}>
           <FlowSelector />
-        </Suspense>
+        </SafeSuspense>
       </div>
 
       <section className="mx-5 flex w-full flex-col gap-3 lg:max-w-lg">
