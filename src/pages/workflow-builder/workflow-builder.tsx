@@ -57,7 +57,7 @@ export function WorkflowBuilder() {
           <FlowSelector />
         </SafeSuspense>
       </div>
-
+      
       <section className="mx-5 flex w-full flex-col gap-3 lg:max-w-lg">
         {schema && <FlowForm schema={schema} />}
       </section>
