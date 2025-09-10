@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import ToggleLanguage from './toggleLanguage'
 import { useUserInfo } from '@/hooks/useUserInfo'
 import { useUserLogin } from '@/hooks/useUserLogin'
-import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
 import { ScrollToHash } from '@/utils/scrollToHash'
 import {
   DropdownMenu,
@@ -20,6 +19,7 @@ import { useEffect, useState } from 'react'
 import { authStore } from '@/stores/authStore'
 import { ROUTES_PATHS } from '@/routes/paths'
 import { useRouter } from '@/hooks/useRouter'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 export function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(false)
@@ -102,16 +102,17 @@ export function Header() {
               <Link to={ROUTES_PATHS.PROFILE}>
                 <Avatar>
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                    width={50}
-                    className="rounded-4xl"
+                    src={userInfo?.image ?? undefined}
+                    alt={userInfo?.username}
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>
+                    {userInfo?.username?.charAt(0).toUpperCase() ?? 'U'}
+                  </AvatarFallback>
                 </Avatar>
               </Link>
             </>
           )}
+
           {!userInfo && !isLoading && !isAuthenticated && (
             <>
               <Button
@@ -130,20 +131,20 @@ export function Header() {
             </>
           )}
         </div>
+
         {isSuccess && (
           <div>
             <Avatar>
               <AvatarImage
                 src={userInfo?.image ?? undefined}
                 alt={userInfo?.username}
-                width={60}
-                height={80}
                 className="cursor-pointer"
                 onClick={(e) => {
                   e.preventDefault()
                   navigate('PROFILE')
                 }}
-              ></AvatarImage>
+              />
+
               <AvatarFallback
                 className="cursor-pointer"
                 onClick={(e) => {

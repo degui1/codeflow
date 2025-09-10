@@ -28,6 +28,10 @@
     "Sobre nós": "Sobre nós",
     "Perguntas frequentes": "Perguntas frequentes",
     "Recursos": "Recursos",
-    "Todos os direitos reservados.": "Todos os direitos reservados"
+    "Todos os direitos reservados.": "Todos os direitos reservados",
+    "send": "Enviar",
+    "selectSchema": "Selecione um schema",
+    "reset": "Limpar",
+    "loading": "Carregando"
   }
 }

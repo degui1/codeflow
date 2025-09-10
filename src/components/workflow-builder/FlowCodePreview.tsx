@@ -101,14 +101,13 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
   }
 
   return (
-    <div className="flex h-[600px] max-w-[400px] flex-col gap-4">
-      <div className="flex flex-row justify-end gap-2 align-middle">
-        <Button className="h-10" variant={'secondary'} onClick={handleCopy}>
+    <div className="flex max-w-[400px] flex-col gap-4">
+      <div className="flex flex-row justify-end space-x-2">
+        <Button variant="secondary" onClick={handleCopy}>
           <MdContentCopy id="copy-code-preview" />
         </Button>
         <Button
-          className="h-10"
-          variant={'secondary'}
+          variant="secondary"
           onClick={() => {
             setEditAsCode(!editAsCode)
             console.log('EditAsCode: ' + editAsCode)
@@ -117,21 +116,22 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
           Editar como código
         </Button>
       </div>
-      <div
-        style={{ height: '100%', width: 400 }}
-        ref={editorRef}
-        id="code-editor"
-      ></div>
-      <div className="flex flex-row justify-between">
-        <Button className="h-10" variant={'secondary'} onClick={resetChanges}>
+
+      <div ref={editorRef} id="code-editor" />
+
+      <div className="flex flex-row justify-end space-x-2">
+        <Button
+          className="mr-auto"
+          variant="ghost"
+          onClick={() => resetChanges()}
+        >
           Desfazer alterações
         </Button>
-        <div className="flex flex-row gap-2">
-          <Button className="h-10" variant={'secondary'}>
-            Download
-          </Button>
-          <Button className="h-10">Postar</Button>
-        </div>
+
+        <Button size="sm" variant="ghost">
+          Download
+        </Button>
+        <Button size="sm">Postar</Button>
       </div>
     </div>
   )

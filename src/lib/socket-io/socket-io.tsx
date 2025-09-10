@@ -4,7 +4,8 @@ const SOCKET_URL = import.meta.env.PROD
   ? import.meta.env.VITE_API_BASE_URL
   : import.meta.env.VITE_API_BASE_URL
 
-export const socket = io(SOCKET_URL, {
-  // autoConnect: false,
-  withCredentials: true,
-})
+export const createSocket = () =>
+  io(SOCKET_URL, {
+    autoConnect: false,
+    withCredentials: true,
+  })

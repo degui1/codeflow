@@ -1,5 +1,17 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { useSuspenseQuery } from '@tanstack/react-query'
+
 import { request } from '@/api/api-client'
-import { Label } from '@/components/ui/label'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import {
   Select,
   SelectContent,
@@ -7,8 +19,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { z } from 'zod'
+import { SocketIOEvents } from '@/lib/socket-io/events'
+import { YamlSchema, yamlSchema } from '@/schemas/FlowSchema'
+
+import { useFlowContext } from '../../hooks/useFlowContext'
+import { Button } from '@/components/ui/button'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import { useEffect } from 'react'
 
 const flowSchemas = z.array(
   z.object({
@@ -17,7 +35,24 @@ const flowSchemas = z.array(
   }),
 )
 
-export function FlowSelector() {
+const flowSchemaSelectorFormSchema = z.object({
+  flowSchemaId: z.string().uuid(),
+})
+
+type FlowSchemaSelectorForm = z.infer<typeof flowSchemaSelectorFormSchema>
+
+interface FlowSelectorProps {
+  onChangeSchema: (schema: YamlSchema) => void
+}
+
+export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
+  const { t } = useTranslation()
+  const { socket } = useFlowContext()
+
+  const form = useForm<FlowSchemaSelectorForm>({
+    resolver: zodResolver(flowSchemaSelectorFormSchema),
+  })
+
   const { data: flows } = useSuspenseQuery({
     queryKey: ['workflow-builder-get-flow-schemas-list'],
     queryFn: async () => {
@@ -29,24 +64,75 @@ export function FlowSelector() {
     },
   })
 
-  return (
-    <div className="flex w-full flex-col items-center gap-3">
-      <Label className="self-start" htmlFor="flow-selector-id">
-        Workflow builder
-      </Label>
-      <Select>
-        <SelectTrigger id="flow-selector-id" className="w-full">
-          <SelectValue placeholder="Selecione um schema" />
-        </SelectTrigger>
+  function onSubmit(data: FlowSchemaSelectorForm) {
+    socket.emit(SocketIOEvents.GET_FLOW_SCHEMA, {
+      flowSchemaId: data.flowSchemaId,
+    })
 
-        <SelectContent>
-          {flows.map(({ id, description }) => (
-            <SelectItem key={id} value={id}>
-              {description}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+    socket.on(SocketIOEvents.GET_FLOW_SCHEMA, (ASchema) => {
+      const { success, data, error } = yamlSchema.safeParse(ASchema)
+
+      if (success && data) {
+        onChangeSchema(data)
+
+        return
+      }
+
+      if (error) {
+        toast.error(error.message)
+      }
+    })
+  }
+
+  useEffect(() => {
+    return () => {
+      socket.off(SocketIOEvents.GET_FLOW_SCHEMA)
+    }
+  }, [])
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="mx-5 flex w-full flex-col gap-3 lg:max-w-lg"
+      >
+        <FormField
+          name="flowSchemaId"
+          control={form.control}
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Flow builder</FormLabel>
+
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger id="flow-selector-id" className="w-full">
+                      <SelectValue placeholder={t('selectSchema')} />
+                    </SelectTrigger>
+                  </FormControl>
+
+                  <SelectContent>
+                    {flows.map(({ id, description }) => (
+                      <SelectItem key={id} value={id}>
+                        {description}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <FormMessage />
+              </FormItem>
+            )
+          }}
+        />
+
+        <Button type="submit" variant="outline">
+          {t('send')}
+        </Button>
+      </form>
+    </Form>
   )
 }
