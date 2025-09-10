@@ -117,7 +117,7 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
         </Button>
       </div>
 
-      <div ref={editorRef} id="code-editor" />
+      <div ref={editorRef} id="code-editor" className="flex-1" />
 
       <div className="flex flex-row justify-end space-x-2">
         <Button
