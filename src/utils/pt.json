@@ -32,6 +32,8 @@
     "send": "Enviar",
     "selectSchema": "Selecione um schema",
     "reset": "Limpar",
-    "loading": "Carregando"
+    "loading": "Carregando",
+    "pleaseSelectSchemaToContinue": "Por favor, selecione um schema para continuar",
+    "create": "Criar"
   }
 }

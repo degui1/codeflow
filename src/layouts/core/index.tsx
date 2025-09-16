@@ -1,4 +1,3 @@
-import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { Outlet } from 'react-router'
 
@@ -11,7 +10,6 @@ export function CoreLayout() {
       <div className="flex flex-1 flex-col">
         <Outlet />
       </div>
-      <Footer />
     </div>
   )
 }

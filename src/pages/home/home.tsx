@@ -11,12 +11,13 @@ import {
 } from 'react-icons/md'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
+import { Footer } from '@/components/footer'
 
 export function Home() {
   const { t } = useTranslation()
 
   return (
-    <div className="i flex flex-1 flex-col items-center justify-center">
+    <div className="flex flex-1 flex-col items-center justify-center">
       <div className="pointer-events-none absolute -top-1/3 left-1/2 -z-10 h-[130rem] w-full max-w-[120rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gray-500 opacity-12 blur-[120px] lg:h-[150rem]" />
       <main
         id="home"
@@ -108,6 +109,8 @@ export function Home() {
           {t('Começar agora')}
         </Button>
       </section>
+
+      <Footer />
     </div>
   )
 }

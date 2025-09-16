@@ -1,6 +1,6 @@
-import { FlowCodePreview } from '@/components/workflow-builder/FlowCodePreview'
 import { FlowProvider } from './context/flow.provider'
 import { FlowForm } from './components/Form/FlowForm'
+import { FlowEditor } from './components/FlowEditor/FlowEditor'
 
 export function WorkflowBuilder() {
   return (
@@ -8,11 +8,7 @@ export function WorkflowBuilder() {
       <main className="flex w-full max-w-[1200px] flex-1 justify-center self-center">
         <FlowForm />
 
-        <FlowCodePreview
-          yamlCode={
-            'name: GitHub Actions\non:  ["pull", "push"]\njobs:\n\truns-on: "ubunto"'
-          }
-        />
+        <FlowEditor />
       </main>
     </FlowProvider>
   )

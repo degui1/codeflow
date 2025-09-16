@@ -1,19 +1,36 @@
 import { Info } from 'lucide-react'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip'
+import { Button } from './ui/button'
 
-type Props = {
-  info: string
+type HelpProps = {
+  info?: string
+  children: React.ReactNode
 }
 
-const Help = ({ info }: Props) => {
+export function Help({ info, children }: HelpProps) {
   return (
-    <div className="group relative inline-block">
-      <Info className="h-5 w-5" />
+    <>
+      {children}
 
-      <div className="absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 transform rounded bg-gray-800 px-2 py-1 text-xs whitespace-nowrap text-white shadow-md group-hover:block">
-        {info}
-      </div>
-    </div>
+      {info && (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Info />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{info}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
+    </>
   )
 }
-
-export default Help

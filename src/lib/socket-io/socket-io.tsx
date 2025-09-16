@@ -8,4 +8,5 @@ export const createSocket = () =>
   io(SOCKET_URL, {
     autoConnect: false,
     withCredentials: true,
+    // timeout: 5000,
   })

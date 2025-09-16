@@ -3,4 +3,7 @@
     "source.fixAll.eslint": "explicit"
   },
   "typescript.updateImportsOnFileMove.enabled": "always",
+  "cSpell.words": [
+    "monaco"
+  ],
 }

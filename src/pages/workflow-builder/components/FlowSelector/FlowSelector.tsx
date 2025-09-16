@@ -19,7 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { SocketIOEvents } from '@/lib/socket-io/events'
 import { YamlSchema, yamlSchema } from '@/schemas/FlowSchema'
 
 import { useFlowContext } from '../../hooks/useFlowContext'
@@ -65,11 +64,11 @@ export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
   })
 
   function onSubmit(data: FlowSchemaSelectorForm) {
-    socket.emit(SocketIOEvents.GET_FLOW_SCHEMA, {
+    socket.emit('get-flow-schema', {
       flowSchemaId: data.flowSchemaId,
     })
 
-    socket.on(SocketIOEvents.GET_FLOW_SCHEMA, (ASchema) => {
+    socket.on('get-flow-schema', (ASchema) => {
       const { success, data, error } = yamlSchema.safeParse(ASchema)
 
       if (success && data) {
@@ -86,7 +85,7 @@ export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
 
   useEffect(() => {
     return () => {
-      socket.off(SocketIOEvents.GET_FLOW_SCHEMA)
+      socket.off('get-flow-schema')
     }
   }, [])
 

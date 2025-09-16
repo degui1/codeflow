@@ -101,7 +101,7 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
   }
 
   return (
-    <div className="flex max-w-[400px] flex-col gap-4">
+    <div className="flex w-full max-w-[400px] flex-col gap-4">
       <div className="flex flex-row justify-end space-x-2">
         <Button variant="secondary" onClick={handleCopy}>
           <MdContentCopy id="copy-code-preview" />

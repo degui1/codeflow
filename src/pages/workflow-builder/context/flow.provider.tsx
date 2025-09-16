@@ -15,7 +15,11 @@ export function FlowProvider({ children }: FlowProviderProps) {
   useEffect(() => {
     socket.connect()
 
-    socket.on('exception', (data) => toast.error(data))
+    socket.on('exception', (data) => {
+      toast.error(data.message, {
+        description: data.error,
+      })
+    })
 
     return () => {
       socket.disconnect()

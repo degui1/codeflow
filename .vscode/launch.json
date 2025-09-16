@@ -5,8 +5,8 @@
   "version": "0.2.0",
   "configurations": [
       {
-          "type": "chrome",
-          "request": "launch",
+          "type": "msedge",
+          "request": "attach",
           "name": "Launch Chrome against localhost",
           "url": "http://localhost:5173",
           "webRoot": "${workspaceFolder}"

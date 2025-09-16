@@ -5,36 +5,18 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Group } from '@/schemas/FlowSchema'
+
+import { FlowField } from './Fields/FlowField'
 
 interface GroupProps {
   group: Group
-}
-
-export type FieldType = 'string' | 'number' | 'boolean' | 'list' | 'object'
-
-export type Field = {
-  type: FieldType
-  nameableKey?: boolean
-  label?: string
-  help?: string
-  defaultValues?: unknown[]
-  itemType?: FieldType
-  required?: boolean
-  fields?: Record<string, Field>
+  groupKey: string
 }
 
 export function FlowGroup({
   group: { label, description, fields = {} },
+  groupKey,
 }: GroupProps) {
   return (
     <Card>
@@ -45,56 +27,12 @@ export function FlowGroup({
       <CardContent className="flex flex-col items-center space-y-2.5">
         {Object.entries(fields).map(([fieldKey, field]) => {
           return (
-            <div key={fieldKey} className="flex w-full items-center gap-3">
-              <Label htmlFor={fieldKey}>{fieldKey}</Label>
-
-              {(field.type === 'string' || field.type === 'number') &&
-                !field.defaultValues && (
-                  <Input
-                    className="w-full lg:max-w-72"
-                    required={field.required}
-                    type={field.type === 'string' ? 'text' : 'number'}
-                    id={fieldKey}
-                    placeholder={fieldKey}
-                  />
-                )}
-
-              {field.type === 'list' && (
-                <>
-                  {(field.itemType === 'string' ||
-                    field.itemType === 'number') &&
-                    !field.defaultValues && (
-                      <Input
-                        className="w-full lg:max-w-72"
-                        required={field.required}
-                        type={field.itemType === 'string' ? 'text' : 'number'}
-                        id={fieldKey}
-                        placeholder={fieldKey}
-                      />
-                    )}
-
-                  {(field.itemType === 'string' ||
-                    field.itemType === 'number') &&
-                    field.defaultValues && (
-                      <Select>
-                        <SelectTrigger className="w-full lg:max-w-72">
-                          <SelectValue placeholder={fieldKey} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {field.defaultValues.map((defaultValue) => (
-                            <SelectItem
-                              key={String(defaultValue)}
-                              value={String(defaultValue)}
-                            >
-                              {String(defaultValue)}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                </>
-              )}
-            </div>
+            <FlowField
+              key={fieldKey}
+              field={field}
+              groupKey={groupKey}
+              fieldKey={fieldKey}
+            />
           )
         })}
       </CardContent>

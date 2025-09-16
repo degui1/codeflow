@@ -1,11 +1,3 @@
-import { AlignJustify } from 'lucide-react'
-import { Link } from 'react-router'
-import { Button } from './ui/button'
-import { useTranslation } from 'react-i18next'
-import ToggleLanguage from './toggleLanguage'
-import { useUserInfo } from '@/hooks/useUserInfo'
-import { useUserLogin } from '@/hooks/useUserLogin'
-import { ScrollToHash } from '@/utils/scrollToHash'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,12 +6,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu'
-
 import { useEffect, useState } from 'react'
-import { authStore } from '@/stores/authStore'
+import { Link } from 'react-router'
+import { AlignJustify } from 'lucide-react'
+
 import { ROUTES_PATHS } from '@/routes/paths'
-import { useRouter } from '@/hooks/useRouter'
+import { authStore } from '@/stores/authStore'
+import { useUserInfo } from '@/hooks/useUserInfo'
+import { useUserLogin } from '@/hooks/useUserLogin'
+import { ScrollToHash } from '@/utils/scrollToHash'
+
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { Button } from './ui/button'
+import { useTranslation } from 'react-i18next'
+import ToggleLanguage from './toggleLanguage'
 
 export function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(false)
@@ -42,11 +42,11 @@ export function Header() {
   const isMobile = useIsMobile()
 
   const { data: userInfo, isLoading, isSuccess } = useUserInfo()
-  const { navigate } = useRouter()
 
   return (
-    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/30 border-b py-3 backdrop-blur">
+    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/30 h-20 border-b py-3 backdrop-blur">
       <ScrollToHash />
+
       <div className="container mx-auto flex items-center justify-between px-4">
         <Link to="/" className="text-2xl font-bold">
           <img src="/codeflow_logo.png" alt="" width={60} height={80} />
@@ -80,7 +80,7 @@ export function Header() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuLabel>Home</DropdownMenuLabel>
-                  <DropdownMenuItem>Community</DropdownMenuItem>
+                  <DropdownMenuItem>{t('Comunidade')}</DropdownMenuItem>
                   <DropdownMenuItem>Builder</DropdownMenuItem>
                   <DropdownMenuItem>Ferramentas</DropdownMenuItem>
                   <DropdownMenuItem>Profile</DropdownMenuItem>
@@ -94,13 +94,13 @@ export function Header() {
           )}
         </nav>
 
-        <div></div>
-        <div className="flex gap-1">
-          <ToggleLanguage style={{ marginRight: 30 }} />
-          {isAuthenticated && (
+        <div className="flex items-center space-x-4">
+          <ToggleLanguage />
+
+          {isSuccess && (
             <>
               <Link to={ROUTES_PATHS.PROFILE}>
-                <Avatar>
+                <Avatar className="rounded-lg">
                   <AvatarImage
                     src={userInfo?.image ?? undefined}
                     alt={userInfo?.username}
@@ -131,32 +131,6 @@ export function Header() {
             </>
           )}
         </div>
-
-        {isSuccess && (
-          <div>
-            <Avatar>
-              <AvatarImage
-                src={userInfo?.image ?? undefined}
-                alt={userInfo?.username}
-                className="cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault()
-                  navigate('PROFILE')
-                }}
-              />
-
-              <AvatarFallback
-                className="cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault()
-                  navigate('PROFILE')
-                }}
-              >
-                {userInfo?.username?.charAt(0).toUpperCase() ?? 'U'}
-              </AvatarFallback>
-            </Avatar>
-          </div>
-        )}
       </div>
     </header>
   )

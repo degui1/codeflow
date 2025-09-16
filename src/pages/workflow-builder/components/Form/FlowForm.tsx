@@ -1,9 +1,13 @@
-import { YamlSchema } from '@/schemas/FlowSchema'
-import { FlowGroup } from './FlowGroup'
 import { useState } from 'react'
-import { FlowSelector } from '../FlowSelector/FlowSelector'
+
+import { YamlSchema } from '@/schemas/FlowSchema'
 import { SafeSuspense } from '@/components/safe-suspense'
+
+import { FlowSelector } from '../FlowSelector/FlowSelector'
 import { FlowSelectorLoading } from '../FlowSelector/FlowSelector.loading'
+import { CreateFlow } from './CreateFlow'
+import { EmptyFlowGroup } from './EmptyFlowGroup'
+import { FlowGroup } from './FlowGroup'
 
 export function FlowForm() {
   const [schema, setSchema] = useState<YamlSchema | null>(null)
@@ -14,11 +18,17 @@ export function FlowForm() {
         <FlowSelector onChangeSchema={setSchema} />
       </SafeSuspense>
 
-      <section className="mx-5 flex w-full flex-col gap-3 lg:max-w-lg">
+      <section className="mx-5 flex w-full flex-1 flex-col gap-3 lg:max-w-lg">
         {schema &&
-          Object.entries(schema.groups).map(([keyGroup, group]) => {
-            return <FlowGroup key={keyGroup} group={group} />
+          Object.entries(schema.groups).map(([groupKey, group]) => {
+            return (
+              <FlowGroup key={groupKey} group={group} groupKey={groupKey} />
+            )
           })}
+
+        {!schema && <EmptyFlowGroup />}
+
+        {schema && <CreateFlow />}
       </section>
     </div>
   )
