@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 export function FlowSelectorLoading() {
   const { t } = useTranslation()
   return (
-    <div className="mx-5 flex w-full flex-col gap-3 lg:max-w-lg">
+    <div className="flex w-full flex-col gap-3">
       <Label>Flow builder</Label>
 
       <Skeleton>

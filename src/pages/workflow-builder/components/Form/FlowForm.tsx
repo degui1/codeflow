@@ -13,12 +13,12 @@ export function FlowForm() {
   const [schema, setSchema] = useState<YamlSchema | null>(null)
 
   return (
-    <div className="flex flex-1 flex-col items-center space-y-3">
+    <div className="flex flex-1 flex-col items-center space-y-3 lg:max-w-3xl">
       <SafeSuspense fallback={<FlowSelectorLoading />}>
         <FlowSelector onChangeSchema={setSchema} />
       </SafeSuspense>
 
-      <section className="mx-5 flex w-full flex-1 flex-col gap-3 lg:max-w-lg">
+      <section className="flex w-full flex-1 flex-col gap-3">
         {schema &&
           Object.entries(schema.groups).map(([groupKey, group]) => {
             return (

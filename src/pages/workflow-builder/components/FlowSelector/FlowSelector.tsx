@@ -93,7 +93,7 @@ export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mx-5 flex w-full flex-col gap-3 lg:max-w-lg"
+        className="flex w-full flex-col gap-3"
       >
         <FormField
           name="flowSchemaId"
