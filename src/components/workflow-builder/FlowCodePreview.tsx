@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { Button } from '../ui/button'
-import { MdContentCopy } from 'react-icons/md'
+import { useTranslation } from 'react-i18next'
+import { MdContentCopy, MdEdit } from 'react-icons/md'
 import { configureMonacoYaml } from 'monaco-yaml'
+import { toast } from 'sonner'
 import * as monaco from 'monaco-editor'
+
+import { Button } from '../ui/button'
+import { Toggle } from '../ui/toggle'
 
 self.MonacoEnvironment = {
   getWorkerUrl: function (_: unknown, label: string) {
@@ -21,6 +25,9 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
   const monacoEditorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(
     null,
   )
+
+  const { t } = useTranslation()
+
   const [editAsCode, setEditAsCode] = useState(true)
 
   useEffect(() => {
@@ -71,9 +78,9 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
         readOnly: editAsCode,
       })
       // Desabilita a colorização de pares de colchetes
-      editor.updateOptions({
-        'bracketPairColorization.enabled': false,
-      })
+      // editor.updateOptions({
+      //   'bracketPairColorization.enabled': false,
+      // })
       monacoEditorRef.current = editor
     }
 
@@ -103,18 +110,27 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
   return (
     <div className="flex w-full max-w-[400px] flex-col gap-4">
       <div className="flex flex-row justify-end space-x-2">
-        <Button variant="secondary" onClick={handleCopy}>
-          <MdContentCopy id="copy-code-preview" />
-        </Button>
         <Button
           variant="secondary"
           onClick={() => {
-            setEditAsCode(!editAsCode)
-            console.log('EditAsCode: ' + editAsCode)
+            handleCopy()
+            toast.info(t('copiedToClipboard'))
           }}
         >
-          Editar como código
+          <MdContentCopy id="copy-code-preview" />
         </Button>
+
+        <Toggle
+          variant="outline"
+          className="cursor-pointer"
+          onClick={() => {
+            setEditAsCode(!editAsCode)
+          }}
+        >
+          <MdEdit />
+
+          {t('edit')}
+        </Toggle>
       </div>
 
       <div ref={editorRef} id="code-editor" className="flex-1" />
@@ -125,13 +141,13 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
           variant="ghost"
           onClick={() => resetChanges()}
         >
-          Desfazer alterações
+          {t('undoChanges')}
         </Button>
 
         <Button size="sm" variant="ghost">
-          Download
+          {t('download')}
         </Button>
-        <Button size="sm">Postar</Button>
+        <Button size="sm">{t('post')}</Button>
       </div>
     </div>
   )

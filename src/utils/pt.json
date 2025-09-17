@@ -34,6 +34,12 @@
     "reset": "Limpar",
     "loading": "Carregando",
     "pleaseSelectSchemaToContinue": "Por favor, selecione um schema para continuar",
-    "create": "Criar"
+    "create": "Criar",
+    "copieToClipboard": "Copiar para a área de transferência",
+    "copiedToClipboard": "Copiado para a área de transferência",
+    "undoChanges": "Desfazer alterações",
+    "edit": "Editar",
+    "download": "Download",
+    "post": "Postar"
   }
 }

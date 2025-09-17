@@ -34,6 +34,12 @@
     "reset": "Reset",
     "loading": "Loading",
     "pleaseSelectSchemaToContinue": "Please, select a schema to continue",
-    "create": "Create"
+    "create": "Create",
+    "copieToClipboard": "Copie to clipboard",
+    "copiedToClipboard": "Copied to clipboard",
+    "undoChanges": "Undo changes",
+    "edit": "Edit",
+    "download": "Download",
+    "post": "Post"
   }
 }
