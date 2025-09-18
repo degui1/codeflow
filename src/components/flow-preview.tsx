@@ -3,18 +3,23 @@ import { FlowCanvas } from './flow-canvas'
 import { Button } from './ui/button'
 import { Card } from './ui/card'
 import { useEffect, useState } from 'react'
+import { downloadFile } from '@/utils/downloadFile'
 
 export interface Template {
-  id: number
   title: string
   code: string
-  idAuthor?: number
-  idAction?: string
   author: string
   likes: number
+  isOwner?: boolean
 }
 
-export function FlowPreview({ title, code, author, likes }: Template) {
+export function FlowPreview({
+  title,
+  code,
+  author,
+  likes,
+  isOwner = false,
+}: Template) {
   const [showActions, setShowActions] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -40,7 +45,7 @@ export function FlowPreview({ title, code, author, likes }: Template) {
         <h1 className="mb-1">{title}</h1>
       </header>
 
-      <main className="">
+      <main>
         <Card
           className="group relative flex h-60 flex-col justify-between p-0 md:h-40"
           onClick={handleClick}
@@ -56,7 +61,13 @@ export function FlowPreview({ title, code, author, likes }: Template) {
             <Button variant="outline" className="w-full">
               Visualize
             </Button>
-            <Button variant="outline" className="w-full">
+            <Button
+              variant="outline"
+              size="full"
+              onClick={() => {
+                downloadFile(code)
+              }}
+            >
               Download
             </Button>
           </div>
@@ -66,12 +77,10 @@ export function FlowPreview({ title, code, author, likes }: Template) {
       <footer className="flex w-full items-baseline justify-between text-xs">
         <span className="text-left font-bold text-gray-400">by {author}</span>
 
-        <div className="text-right font-bold text-gray-400">
-          <Button size="icon" variant="ghost">
-            <ThumbsUp />
-          </Button>
+        <Button size="sm" variant="ghost" disabled={isOwner}>
+          <ThumbsUp />
           <span>{likes}</span>
-        </div>
+        </Button>
       </footer>
     </div>
   )

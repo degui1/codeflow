@@ -12,7 +12,7 @@ export function Profile() {
         </SafeSuspense>
       </aside>
 
-      <main className="grid w-full max-w-[960px] grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-3">
+      <main className="flex w-full max-w-[960px]">
         <SafeSuspense fallback={<div>loading</div>}>
           <History />
         </SafeSuspense>
