@@ -1,11 +1,13 @@
 import { request } from '@/api/api-client'
 import { userSchema } from '@/schemas/UserSchema'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export function useUserInfo() {
-  const query = useQuery({
+  const query = useSuspenseQuery({
+    queryKey: ['get-logged-user-information'],
     queryFn: async () => {
       const response = await request('GET', '/me')
+
       const json = await response.json()
 
       if (json != undefined) {
@@ -18,16 +20,8 @@ export function useUserInfo() {
 
       return null
     },
-    queryKey: ['get-logged-user-information'],
-    staleTime: 60 * 5 * 1000,
+    staleTime: Infinity,
   })
-  return query
-}
 
-export interface UserInfo {
-  image: string
-  username: string
-  name: string
-  email: string
-  createdAt: string
+  return query
 }

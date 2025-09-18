@@ -40,6 +40,17 @@
     "undoChanges": "Undo changes",
     "edit": "Edit",
     "download": "Download",
-    "post": "Post"
+    "post": "Post",
+    "cancel": "Cancel",
+    "settings": "Settings",
+    "logout": "Logout",
+    "flows": "Flows",
+    "likes": "Likes",
+    "deleteAccount": "Delete account",
+    "save": "Save",
+    "name": "Name",
+    "email": "Email",
+    "username": "Username",
+    "editProfile": "Edit profile"
   }
 }

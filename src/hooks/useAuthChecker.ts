@@ -1,26 +1,29 @@
+import { useCallback } from 'react'
+import { useShallow } from 'zustand/react/shallow'
+
 import { authStore } from '@/stores/authStore.ts'
-import { getCookie } from './useGetCookie'
 
-const AuthChecker = () => {
-  const authStoreInstance = authStore.getState()
-  const token = getCookie('session_cookie')
-  const location = window.location.pathname // ou useLocation() se você mover isso pra um hook React
-  const isOnLoginPage = location === '/'
+import { useRouter } from './useRouter'
 
-  if (token) {
-    authStoreInstance.setIsAuthenticated(true)
-  } else {
-    authStoreInstance.setIsAuthenticated(false)
-    if (!isOnLoginPage) {
-      window.location.href = '/'
-    }
+export const useAuth = () => {
+  const { navigate } = useRouter()
+
+  const { isAuthenticated, getIsAuthenticated, reset } = authStore(
+    useShallow((state) => ({
+      isAuthenticated: state.isAuthenticated,
+      getIsAuthenticated: state.getIsAuthenticated,
+      reset: state.reset,
+    })),
+  )
+
+  const logout = useCallback(() => {
+    reset()
+    navigate('HOME', { replace: true })
+  }, [])
+
+  return {
+    isAuthenticated,
+    getIsAuthenticated,
+    logout,
   }
 }
-
-const logout = () => {
-  const authStoreInstance = authStore.getState()
-  authStoreInstance.reset()
-  window.location.href = '/'
-}
-
-export const useAuthChecker = () => ({ AuthChecker, logout })

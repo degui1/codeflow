@@ -1,26 +1,25 @@
 import { create } from 'zustand'
 
+const SESSION_COOKIE = 'session_cookie'
+
 type AuthStore = {
   isAuthenticated: boolean
-  setIsAuthenticated: (isAuthenticated: boolean) => void
+  getIsAuthenticated: () => Promise<boolean>
   reset: () => void
 }
 
 export const authStore = create<AuthStore>((set) => ({
   isAuthenticated: false,
-  setIsAuthenticated(isAuthenticated: boolean) {
-    if (isAuthenticated) {
-      localStorage.setItem('isAuthenticated', 'true')
-      set({ isAuthenticated: true })
-    } else {
-      localStorage.setItem('isAuthenticated', 'false')
-      set({ isAuthenticated: false })
-    }
+  getIsAuthenticated: async () => {
+    const cookie = await window.cookieStore.get({ name: SESSION_COOKIE })
+    const isAuth = Boolean(cookie)
+
+    set({ isAuthenticated: isAuth })
+
+    return isAuth
   },
   reset() {
-    document.cookie = `oauth_code_verifier=; max-age=0; path=/`
-    document.cookie = `oauth_state=; max-age=0; path=/`
-    document.cookie = `session_cookie=; max-age=0; path=/`
-    document.cookie = `user_session=; max-age=0; path=/`
+    document.cookie = `${SESSION_COOKIE}=; max-age=0; path=/`
+    set({ isAuthenticated: false })
   },
 }))

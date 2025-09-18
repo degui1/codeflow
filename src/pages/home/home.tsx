@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button'
-import { Feature } from '@/components/home/feature'
 import {
   MdOutlineVerified,
   MdOutlineRocketLaunch,
@@ -11,6 +9,9 @@ import {
 } from 'react-icons/md'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
+
+import { Button } from '@/components/ui/button'
+import { Feature } from '@/components/home/feature'
 import { Footer } from '@/components/footer'
 
 export function Home() {

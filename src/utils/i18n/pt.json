@@ -40,6 +40,17 @@
     "undoChanges": "Desfazer alterações",
     "edit": "Editar",
     "download": "Download",
-    "post": "Postar"
+    "post": "Postar",
+    "cancel": "Cancelar",
+    "settings": "Configurações",
+    "logout": "Sair",
+    "flows": "Flows",
+    "likes": "Curtidas",
+    "deleteAccount": "Apagar conta",
+    "save": "Salvar",
+    "name": "Nome",
+    "email": "E-mail",
+    "username": "Username",
+    "editProfile": "Editar perfil"
   }
 }
