@@ -115,6 +115,23 @@ export function FlowField({
           <div className="flex gap-3">
             <Help info={field.help ?? ''}>
               <Label>{field.label}</Label>
+
+              {field.nameableKey && (
+                <Input
+                  className="max-w-28"
+                  required={field.required}
+                  type="string"
+                  id={key}
+                  placeholder={field.label}
+                  disabled={isSubmitting}
+                  onBlur={(e) => {
+                    let value: unknown = e.target.value
+                    if (field.type === 'number') value = Number(value)
+                    if (field.type === 'boolean') value = value === 'true'
+                    onCompleteInput(value)
+                  }}
+                />
+              )}
             </Help>
           </div>
 
@@ -160,7 +177,24 @@ export function FlowField({
       <div className={'flex w-full flex-col justify-center gap-3'}>
         <div className="flex gap-3">
           <Help info={field.help ?? ''}>
-            <Label>{field.label}</Label>
+            {!field.nameableKey && <Label>{field.label}</Label>}
+
+            {field.nameableKey && (
+              <Input
+                className="max-w-28"
+                required={field.required}
+                type="string"
+                id={key}
+                placeholder={field.label}
+                disabled={isSubmitting}
+                onBlur={(e) => {
+                  let value: unknown = e.target.value
+                  if (field.type === 'number') value = Number(value)
+                  if (field.type === 'boolean') value = value === 'true'
+                  onCompleteInput(value)
+                }}
+              />
+            )}
           </Help>
         </div>
 

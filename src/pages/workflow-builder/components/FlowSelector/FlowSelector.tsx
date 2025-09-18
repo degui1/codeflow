@@ -41,7 +41,7 @@ const flowSchemaSelectorFormSchema = z.object({
 type FlowSchemaSelectorForm = z.infer<typeof flowSchemaSelectorFormSchema>
 
 interface FlowSelectorProps {
-  onChangeSchema: (schema: YamlSchema) => void
+  onChangeSchema: (schema: YamlSchema | null) => void
 }
 
 export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
@@ -50,6 +50,9 @@ export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
 
   const form = useForm<FlowSchemaSelectorForm>({
     resolver: zodResolver(flowSchemaSelectorFormSchema),
+    defaultValues: {
+      flowSchemaId: '',
+    },
   })
 
   const { data: flows } = useSuspenseQuery({
@@ -103,10 +106,7 @@ export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
               <FormItem>
                 <FormLabel>Flow builder</FormLabel>
 
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger id="flow-selector-id" className="w-full">
                       <SelectValue placeholder={t('selectSchema')} />
@@ -128,9 +128,23 @@ export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
           }}
         />
 
-        <Button type="submit" variant="outline">
-          {t('send')}
-        </Button>
+        <div className="flex justify-end space-x-2">
+          <Button
+            type="reset"
+            variant="destructive"
+            onClick={() => {
+              form.reset()
+              onChangeSchema(null)
+            }}
+            size="sm"
+          >
+            {t('cancel')}
+          </Button>
+
+          <Button type="submit" variant="outline" size="sm">
+            {t('send')}
+          </Button>
+        </div>
       </form>
     </Form>
   )

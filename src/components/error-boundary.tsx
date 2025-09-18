@@ -22,9 +22,9 @@ export class ErrorBoundary extends React.Component<
     return { hasError: true }
   }
 
-  componentDidCatch(error: unknown, info: unknown) {
-    console.warn(React.captureOwnerStack(), error, info)
-  }
+  // componentDidCatch(error: unknown, info: unknown) {
+  //   console.warn(React.captureOwnerStack(), error, info)
+  // }
 
   render() {
     if (this.state.hasError) {

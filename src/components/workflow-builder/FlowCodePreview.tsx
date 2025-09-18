@@ -7,6 +7,7 @@ import * as monaco from 'monaco-editor'
 
 import { Button } from '../ui/button'
 import { Toggle } from '../ui/toggle'
+import { downloadFile } from '@/utils/downloadFile'
 
 self.MonacoEnvironment = {
   getWorkerUrl: function (_: unknown, label: string) {
@@ -144,7 +145,11 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
           {t('undoChanges')}
         </Button>
 
-        <Button size="sm" variant="ghost">
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => downloadFile(yamlCode)}
+        >
           {t('download')}
         </Button>
         <Button size="sm">{t('post')}</Button>
