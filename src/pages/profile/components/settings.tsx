@@ -30,7 +30,7 @@ export function Settings({ open, onClose }: SettingsProps) {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="w-full">
         <DialogHeader>
-          <DialogTitle className="text-center">Edit Profile</DialogTitle>
+          <DialogTitle className="text-center">{t('editProfile')}</DialogTitle>
         </DialogHeader>
 
         <Label htmlFor="user-name">{t('name')}</Label>
