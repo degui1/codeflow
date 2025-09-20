@@ -8,4 +8,5 @@ export const userSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   createdAt: z.coerce.date(),
+  id: z.string(),
 })

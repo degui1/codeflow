@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
@@ -40,6 +39,7 @@ import {
   CommunityPostsFilterForm,
   communityPostsFilterFormSchema,
 } from '@/schemas/posts/posts.schema'
+import { format } from '@/utils/format'
 
 const flowSchemas = z.array(
   z.object({

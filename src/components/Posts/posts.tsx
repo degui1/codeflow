@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/pagination'
 import { FlowPreview } from '@/components/flow-preview'
 import { Posts } from '@/schemas/posts/posts.schema'
+import { useUserInfo } from '@/hooks/useUserInfo'
 
 interface PostsGridProps {
   hasNextPage: boolean
@@ -26,6 +27,8 @@ export function PostsGrid({
   emptyFallback: EmptyFallback,
 }: PostsGridProps) {
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
+
+  const { data: userData } = useUserInfo()
 
   const posts = useMemo(() => {
     const lastPage = pages[currentPageIndex]?.posts ?? []
@@ -45,7 +48,7 @@ export function PostsGrid({
             code={post.flow.content}
             likes={post._count.likes}
             title={post.title}
-            isOwner
+            isOwner={post.user_id === userData?.id}
           />
         ))}
       </section>

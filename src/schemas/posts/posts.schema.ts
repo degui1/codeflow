@@ -22,6 +22,7 @@ export const postsSchema = z.object({
       updated_at: z.coerce.date(),
       downloads: z.number(),
       visibility: z.enum(['PRIVATE', 'PUBLIC']),
+      user_id: z.string().uuid(),
       _count: z.object({
         likes: z.number(),
       }),
