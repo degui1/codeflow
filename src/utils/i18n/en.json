@@ -52,6 +52,8 @@
     "email": "Email",
     "username": "Username",
     "editProfile": "Edit profile",
-    "visualize": "Visualize"
+    "visualize": "Visualize",
+    "filter": "Filter",
+    "useTheFiltersToMakeYourSearchEasier": "Use the filters to make your search easier"
   }
 }

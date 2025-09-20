@@ -126,6 +126,17 @@ export function FlowCodePreview({
         >
           <MdContentCopy id="copy-code-preview" />
         </Button>
+        <Toggle
+          variant="outline"
+          className="cursor-pointer"
+          onClick={() => {
+            setEditAsCode(!editAsCode)
+          }}
+        >
+          <MdEdit />
+
+          {t('edit')}
+        </Toggle>
       </div>
 
       <div ref={editorRef} id="code-editor" className="flex-1" />
@@ -133,17 +144,6 @@ export function FlowCodePreview({
       <div className="flex flex-row justify-end space-x-2">
         {isOwner && (
           <>
-            <Toggle
-              variant="outline"
-              className="cursor-pointer"
-              onClick={() => {
-                setEditAsCode(!editAsCode)
-              }}
-            >
-              <MdEdit />
-
-              {t('edit')}
-            </Toggle>
             <Button
               className="mr-auto"
               variant="ghost"

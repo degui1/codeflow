@@ -1,104 +1,237 @@
-import { useState } from 'react'
-import { Icons } from '@/assets/icons'
-
+import { useTranslation } from 'react-i18next'
 import { Button } from './ui/button'
-import { Template } from '@/pages/community/community'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from './ui/card'
+import { Input } from './ui/input'
+import { Label } from './ui/label'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { cn } from '@/lib/utils'
+import { Popover, PopoverTrigger, PopoverContent } from './ui/popover'
+import { Calendar } from './ui/calendar'
+import { format } from 'date-fns'
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+  Form,
+} from './ui/form'
+import { CalendarIcon } from 'lucide-react'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from './ui/select'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { request } from '@/api/api-client'
 
-interface DataProps {
-  data: Template[]
-  filteredData: (filter: Filter) => void
-}
+const communityPostsFilterFormSchema = z.object({
+  author: z.string().optional(),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
+  flowSchemaId: z.string().uuid().optional(),
+  downloads: z.number().optional(),
+})
 
-export interface Filter {
-  idAuthor: string
-  idAction: string
-}
+const flowSchemas = z.array(
+  z.object({
+    id: z.string(),
+    description: z.string(),
+  }),
+)
 
-export const Filter = ({ data, filteredData }: DataProps) => {
-  const [filter, setFilter] = useState<Filter>({
-    idAuthor: '',
-    idAction: '',
+type CommunityPostsFilterForm = z.infer<typeof communityPostsFilterFormSchema>
+
+export const Filter = () => {
+  const { t } = useTranslation()
+
+  const { data: flows } = useSuspenseQuery({
+    queryKey: ['workflow-builder-get-flow-schemas-list'],
+    queryFn: async () => {
+      const response = await request('GET', '/schemas')
+
+      const data = await response.json()
+
+      return flowSchemas.parse(data.flowSchemas)
+    },
   })
 
-  const actions = [
-    { idAction: '1', actionName: 'Push' },
-    { idAction: '2', actionName: 'Pull' },
-    { idAction: '3', actionName: 'Full' },
-  ]
+  const form = useForm<CommunityPostsFilterForm>({
+    resolver: zodResolver(communityPostsFilterFormSchema),
+    defaultValues: {},
+  })
 
   return (
-    <section className="col-span-1 hidden rounded-3xl border p-6 md:block lg:block">
-      <h2 className="text-2xl">Filter</h2>
-      <div className="m-2">
-        <div className="border-accent mt-4 flex">
-          <Icons.magnifyinGlass size={24} className="m-2 h-auto" />
-          <input
-            type="text"
-            placeholder="Pesquisar..."
-            className="w-full focus:border-0 focus:outline-none"
-          />
-        </div>
+    <Card className="flex w-full flex-col items-center md:h-full md:min-w-70">
+      <CardHeader className="flex w-full flex-col items-center space-y-1">
+        <CardTitle>{t('filter')}</CardTitle>
 
-        <div className="block">
-          <label className="mt-4 ml-2 block text-lg font-medium">Action</label>
-          <select
-            value={filter.idAction}
-            onChange={(e) => {
-              const newFilter = { ...filter, idAction: e.target.value }
-              setFilter(newFilter)
-              filteredData(newFilter)
-            }}
-            className="w-full rounded-lg border p-2"
+        <CardDescription>
+          {t('useTheFiltersToMakeYourSearchEasier')}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="w-full flex-1">
+        <Form {...form}>
+          <form
+            id="community-form-filter"
+            className="flex w-full flex-col space-y-2"
+            onSubmit={form.handleSubmit((data) => console.log(data))}
           >
-            <option className="bg-black" value="">
-              All actions
-            </option>
+            <Label htmlFor="field-author">Autor</Label>
+            <Input id="field-author" placeholder="Autor" />
 
-            {actions.map((item, index) => (
-              <option value={item.idAction} className="bg-black" key={index}>
-                {item.actionName}
-              </option>
-            ))}
-          </select>
-        </div>
+            <FormField
+              control={form.control}
+              name="startDate"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Start date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={'outline'}
+                          className={cn(
+                            'w-[240px] pl-3 text-left font-normal',
+                            !field.value && 'text-muted-foreground',
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, 'PPP')
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date: Date) =>
+                          date > new Date() || date < new Date('1900-01-01')
+                        }
+                        captionLayout="dropdown"
+                      />
+                    </PopoverContent>
+                  </Popover>
 
-        <label className="mt-2 ml-2 block text-lg font-medium">Author</label>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div className="flex justify-between align-middle">
-          <select
-            value={filter.idAuthor}
-            onChange={(e) => {
-              const newFilter = { ...filter, idAuthor: e.target.value }
-              setFilter(newFilter)
-              filteredData(newFilter)
-            }}
-            className="w-full rounded-lg border p-2"
-          >
-            <option className="bg-black" value="">
-              All authors
-            </option>
+            <FormField
+              control={form.control}
+              name="endDate"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>End date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={'outline'}
+                          className={cn(
+                            'w-[240px] pl-3 text-left font-normal',
+                            !field.value && 'text-muted-foreground',
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, 'PPP')
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date: Date) =>
+                          date > new Date() || date < new Date('1900-01-01')
+                        }
+                        captionLayout="dropdown"
+                      />
+                    </PopoverContent>
+                  </Popover>
 
-            {data.map((item, index) => (
-              <option value={item.idAuthor} className="bg-black" key={index}>
-                {item.user.username}
-              </option>
-            ))}
-          </select>
-        </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
+            <Label htmlFor="field-downloads">Min. downloads</Label>
+            <Input
+              id="field-downloads"
+              placeholder="Min. downloads"
+              type="number"
+            />
+
+            <FormField
+              name="flowSchemaId"
+              control={form.control}
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>Flow builder</FormLabel>
+
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger id="flow-selector-id" className="w-full">
+                          <SelectValue placeholder={t('selectSchema')} />
+                        </SelectTrigger>
+                      </FormControl>
+
+                      <SelectContent>
+                        {flows.map(({ id, description }) => (
+                          <SelectItem key={id} value={id}>
+                            {description}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+          </form>
+        </Form>
+      </CardContent>
+
+      <CardFooter className="flex w-full flex-col space-y-2">
         <Button
-          className="mt-8"
-          variant={'secondary'}
-          size={'full'}
-          onClick={() => {
-            const resetFilter = { idAuthor: '', idAction: '' }
-            setFilter(resetFilter)
-            filteredData(resetFilter)
-          }}
+          type="reset"
+          size="full"
+          variant="ghost"
+          form="community-form-filter"
         >
-          Reset
+          {t('reset')}
         </Button>
-      </div>
-    </section>
+
+        <Button type="submit" size="full" form="community-form-filter">
+          {t('filter')}
+        </Button>
+      </CardFooter>
+    </Card>
   )
 }
