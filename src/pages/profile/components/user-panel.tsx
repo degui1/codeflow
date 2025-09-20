@@ -30,7 +30,7 @@ export function UserPanel({ likes, posts }: UserPanelProps) {
 
   return (
     <>
-      <Card className="flex w-full flex-col items-center md:h-full">
+      <Card className="flex w-full flex-col items-center md:h-full md:min-w-70">
         <CardHeader className="flex w-full flex-col items-center space-y-4">
           <Avatar className="rounded-lg">
             <AvatarImage

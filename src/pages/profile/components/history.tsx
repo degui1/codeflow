@@ -41,7 +41,7 @@ export function History() {
 
   return (
     <div className="flex w-full flex-1 flex-col">
-      <section className="grid w-full flex-1 grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      <section className="grid w-full flex-1 grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
         {posts.length === 0 && (
           <div className="[background-image:repeating-radial-gradient(circle,theme(colors.background)_0,theme(colors.foreground)_0.1px,theme(color.background)_1px,transparent_14px)] col-span-3 flex flex-1 flex-col items-center justify-center space-y-8 [background-size:20px_20px]">
             <Siren size={32} className="text-amber-300 opacity-100" />
@@ -81,7 +81,11 @@ export function History() {
           </PaginationItem>
           <PaginationItem>
             {history.pages.map((_page, i) => (
-              <PaginationButton key={i} onClick={() => setCurrentPageIndex(i)}>
+              <PaginationButton
+                variant={i === currentPageIndex ? 'outline' : 'ghost'}
+                key={i}
+                onClick={() => setCurrentPageIndex(i)}
+              >
                 {i + 1}
               </PaginationButton>
             ))}

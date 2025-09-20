@@ -8,14 +8,15 @@ import {
   MdLightbulbOutline,
 } from 'react-icons/md'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
 
 import { Button } from '@/components/ui/button'
 import { Feature } from '@/components/home/feature'
 import { Footer } from '@/components/footer'
+import { useRouter } from '@/hooks/useRouter'
 
 export function Home() {
   const { t } = useTranslation()
+  const { navigate } = useRouter()
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center">
@@ -33,9 +34,16 @@ export function Home() {
           )}
         </p>
         <div className="mx-auto space-x-2">
-          <Button size="lg">{t('Comece agora')}</Button>
-          <Button variant="ghost" size="lg">
-            <Link to="/community">{t('Veja a comunidade')}</Link>
+          <Button size="lg" onClick={() => navigate('WORKFLOW_BUILDER')}>
+            {t('Comece agora')}
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="lg"
+            onClick={() => navigate('COMMUNITY')}
+          >
+            {t('Veja a comunidade')}
           </Button>
         </div>
       </main>
@@ -106,7 +114,10 @@ export function Home() {
             {t('Aprenda na prática')}
           </span>
         </div>
-        <Button className="text-1xl h-12 w-xs lg:w-full">
+        <Button
+          className="text-1xl h-12 w-xs lg:w-full"
+          onClick={() => navigate('WORKFLOW_BUILDER')}
+        >
           {t('Começar agora')}
         </Button>
       </section>

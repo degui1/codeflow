@@ -51,6 +51,7 @@
     "name": "Name",
     "email": "Email",
     "username": "Username",
-    "editProfile": "Edit profile"
+    "editProfile": "Edit profile",
+    "visualize": "Visualize"
   }
 }

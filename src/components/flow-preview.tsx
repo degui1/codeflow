@@ -4,6 +4,7 @@ import { Button } from './ui/button'
 import { Card } from './ui/card'
 import { useEffect, useState } from 'react'
 import { downloadFile } from '@/utils/downloadFile'
+import { useTranslation } from 'react-i18next'
 
 export interface Template {
   title: string
@@ -27,6 +28,8 @@ export function FlowPreview({
   const [showActions, setShowActions] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
+  const { t } = useTranslation()
+
   useEffect(() => {
     const checkMobile = () => {
       setShowActions(false)
@@ -44,14 +47,14 @@ export function FlowPreview({
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col space-y-1">
       <header>
-        <h1 className="mb-1">{title}</h1>
+        <h1 className="">{title}</h1>
       </header>
 
-      <main>
+      <main className="flex flex-1">
         <Card
-          className="group relative flex h-60 flex-col justify-between p-0 md:h-40"
+          className="group relative flex flex-1 flex-col justify-between p-0"
           onClick={handleClick}
         >
           <div
@@ -69,7 +72,7 @@ export function FlowPreview({
                 setIsDialogOpen ? setIsDialogOpen(!isDialogOpen) : null
               }
             >
-              Visualize
+              {t('visualize')}
             </Button>
             <Button
               variant="outline"
@@ -78,7 +81,7 @@ export function FlowPreview({
                 downloadFile(code)
               }}
             >
-              Download
+              {t('download')}
             </Button>
           </div>
         </Card>
