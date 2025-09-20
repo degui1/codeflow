@@ -1,6 +1,4 @@
 import { useMemo, useState } from 'react'
-import { Link } from 'react-router'
-import { Siren } from 'lucide-react'
 
 import {
   Pagination,
@@ -12,19 +10,20 @@ import {
   PaginationButton,
 } from '@/components/ui/pagination'
 import { FlowPreview } from '@/components/flow-preview'
-import { ROUTES_PATHS } from '@/routes/paths'
 import { Posts } from '@/schemas/posts/posts.schema'
 
 interface PostsGridProps {
   hasNextPage: boolean
   fetchNextPage: () => Promise<void>
   pages: Posts[]
+  emptyFallback: () => React.JSX.Element
 }
 
 export function PostsGrid({
   fetchNextPage,
   hasNextPage,
   pages,
+  emptyFallback: EmptyFallback,
 }: PostsGridProps) {
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
 
@@ -37,22 +36,7 @@ export function PostsGrid({
   return (
     <div className="flex w-full flex-1 flex-col">
       <section className="grid w-full flex-1 grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-        {posts.length === 0 && (
-          <div className="[background-image:repeating-radial-gradient(circle,theme(colors.background)_0,theme(colors.foreground)_0.1px,theme(color.background)_1px,transparent_14px)] col-span-3 flex flex-1 flex-col items-center justify-center space-y-8 [background-size:20px_20px]">
-            <Siren size={32} className="text-amber-300 opacity-100" />
-
-            <h2 className="text-lg font-semibold">
-              Não há posts para o seu perfil. Aproveite e vá para{' '}
-              <Link
-                className="text-amber-300"
-                to={ROUTES_PATHS.WORKFLOW_BUILDER}
-              >
-                Builder
-              </Link>{' '}
-              e crie!
-            </h2>
-          </div>
-        )}
+        {posts.length === 0 && <EmptyFallback />}
 
         {posts.map((post) => (
           <FlowPreview

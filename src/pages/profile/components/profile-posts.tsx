@@ -3,6 +3,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { request } from '@/api/api-client'
 import { PostsGrid } from '@/components/Posts/posts'
 import { postsSchema } from '@/schemas/posts/posts.schema'
+import { EmptyProfilePosts } from './empty-profile-posts'
 
 export function ProfilePosts() {
   const {
@@ -30,6 +31,7 @@ export function ProfilePosts() {
       }}
       hasNextPage={hasNextPage}
       pages={history.pages}
+      emptyFallback={EmptyProfilePosts}
     />
   )
 }

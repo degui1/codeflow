@@ -1,4 +1,14 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+import { request } from '@/api/api-client'
+import { cn } from '@/lib/utils'
+
 import { Button } from './ui/button'
 import {
   Card,
@@ -9,14 +19,8 @@ import {
   CardFooter,
 } from './ui/card'
 import { Input } from './ui/input'
-import { Label } from './ui/label'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { cn } from '@/lib/utils'
 import { Popover, PopoverTrigger, PopoverContent } from './ui/popover'
 import { Calendar } from './ui/calendar'
-import { format } from 'date-fns'
 import {
   FormField,
   FormItem,
@@ -25,7 +29,6 @@ import {
   FormMessage,
   Form,
 } from './ui/form'
-import { CalendarIcon } from 'lucide-react'
 import {
   Select,
   SelectTrigger,
@@ -33,16 +36,10 @@ import {
   SelectContent,
   SelectItem,
 } from './ui/select'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { request } from '@/api/api-client'
-
-const communityPostsFilterFormSchema = z.object({
-  author: z.string().optional(),
-  startDate: z.date().optional(),
-  endDate: z.date().optional(),
-  flowSchemaId: z.string().uuid().optional(),
-  downloads: z.number().optional(),
-})
+import {
+  CommunityPostsFilterForm,
+  communityPostsFilterFormSchema,
+} from '@/schemas/posts/posts.schema'
 
 const flowSchemas = z.array(
   z.object({
@@ -51,9 +48,11 @@ const flowSchemas = z.array(
   }),
 )
 
-type CommunityPostsFilterForm = z.infer<typeof communityPostsFilterFormSchema>
+interface FilterProps {
+  onChangeFilter: (filters: CommunityPostsFilterForm) => void
+}
 
-export const Filter = () => {
+export function Filter({ onChangeFilter }: FilterProps) {
   const { t } = useTranslation()
 
   const { data: flows } = useSuspenseQuery({
@@ -69,7 +68,7 @@ export const Filter = () => {
 
   const form = useForm<CommunityPostsFilterForm>({
     resolver: zodResolver(communityPostsFilterFormSchema),
-    defaultValues: {},
+    defaultValues: { author: '', flowSchemaId: '' },
   })
 
   return (
@@ -87,10 +86,22 @@ export const Filter = () => {
           <form
             id="community-form-filter"
             className="flex w-full flex-col space-y-2"
-            onSubmit={form.handleSubmit((data) => console.log(data))}
+            onSubmit={form.handleSubmit((data) => onChangeFilter(data))}
           >
-            <Label htmlFor="field-author">Autor</Label>
-            <Input id="field-author" placeholder="Autor" />
+            <FormField
+              control={form.control}
+              name="author"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Autor</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Autor" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
@@ -178,11 +189,23 @@ export const Filter = () => {
               )}
             />
 
-            <Label htmlFor="field-downloads">Min. downloads</Label>
-            <Input
-              id="field-downloads"
-              placeholder="Min. downloads"
-              type="number"
+            <FormField
+              control={form.control}
+              name="downloads"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Min. downloads</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Min. downloads"
+                      type="number"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
             />
 
             <FormField
@@ -220,10 +243,11 @@ export const Filter = () => {
 
       <CardFooter className="flex w-full flex-col space-y-2">
         <Button
-          type="reset"
+          // type="reset"
           size="full"
           variant="ghost"
           form="community-form-filter"
+          onClick={() => form.reset()}
         >
           {t('reset')}
         </Button>

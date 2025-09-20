@@ -1,5 +1,17 @@
 import { z } from 'zod'
 
+export const communityPostsFilterFormSchema = z.object({
+  author: z.string().optional(),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
+  flowSchemaId: z.string().optional(),
+  downloads: z.coerce.number().optional(),
+})
+
+export type CommunityPostsFilterForm = z.infer<
+  typeof communityPostsFilterFormSchema
+>
+
 export const postsSchema = z.object({
   posts: z.array(
     z.object({
