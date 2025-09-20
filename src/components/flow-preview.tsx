@@ -11,6 +11,8 @@ export interface Template {
   author: string
   likes: number
   isOwner?: boolean
+  isDialogOpen?: boolean
+  setIsDialogOpen?: (isDialogOpen: boolean) => void
 }
 
 export function FlowPreview({
@@ -19,6 +21,8 @@ export function FlowPreview({
   author,
   likes,
   isOwner = false,
+  isDialogOpen,
+  setIsDialogOpen,
 }: Template) {
   const [showActions, setShowActions] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -58,7 +62,13 @@ export function FlowPreview({
           <div
             className={`absolute inset-0 flex w-full flex-1 flex-col items-center justify-center gap-4 px-4 text-center opacity-0 transition-opacity duration-300 ${showActions ? 'opacity-100' : 'opacity-0'} md:group-hover:opacity-100`}
           >
-            <Button variant="outline" className="w-full">
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() =>
+                setIsDialogOpen ? setIsDialogOpen(!isDialogOpen) : null
+              }
+            >
               Visualize
             </Button>
             <Button

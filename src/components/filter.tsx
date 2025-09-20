@@ -27,10 +27,10 @@ export const Filter = ({ data, filteredData }: DataProps) => {
   ]
 
   return (
-    <section className="col-span-1 hidden h-120 rounded-3xl border p-10 md:block lg:block">
+    <section className="col-span-1 hidden rounded-3xl border p-6 md:block lg:block">
       <h2 className="text-2xl">Filter</h2>
       <div className="m-2">
-        <div className="border-accent mt-4 flex border-b-2">
+        <div className="border-accent mt-4 flex">
           <Icons.magnifyinGlass size={24} className="m-2 h-auto" />
           <input
             type="text"
@@ -80,7 +80,7 @@ export const Filter = ({ data, filteredData }: DataProps) => {
 
             {data.map((item, index) => (
               <option value={item.idAuthor} className="bg-black" key={index}>
-                {item.author}
+                {item.user.username}
               </option>
             ))}
           </select>
