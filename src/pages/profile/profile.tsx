@@ -1,8 +1,9 @@
 import { SafeSuspense } from '@/components/safe-suspense'
-import { History } from './components/history'
+
 import { UserPanel } from './components/user-panel'
 import { UserPanelLoading } from './components/user-panel.loading'
-import { HistoryLoading } from './components/history.loading'
+import { HistoryLoading } from '../../components/Posts/posts.loading'
+import { ProfilePosts } from './components/profile-posts'
 
 export function Profile() {
   return (
@@ -15,7 +16,7 @@ export function Profile() {
 
       <main className="flex max-h-full w-full max-w-[960px]">
         <SafeSuspense fallback={<HistoryLoading />}>
-          <History />
+          <ProfilePosts />
         </SafeSuspense>
       </main>
     </div>

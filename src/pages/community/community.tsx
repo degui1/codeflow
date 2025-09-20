@@ -1,8 +1,8 @@
 import { Filter } from '@/components/filter'
 import { SafeSuspense } from '@/components/safe-suspense'
 
-import { HistoryLoading } from '../profile/components/history.loading'
-import { History } from '../profile/components/history'
+import { HistoryLoading } from '../../components/Posts/posts.loading'
+import { CommunityPosts } from './community-posts'
 
 export function Community() {
   return (
@@ -15,7 +15,7 @@ export function Community() {
 
       <main className="flex max-h-full w-full max-w-[960px]">
         <SafeSuspense fallback={<HistoryLoading />}>
-          <History />
+          <CommunityPosts />
         </SafeSuspense>
       </main>
     </div>

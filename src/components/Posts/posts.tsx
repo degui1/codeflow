@@ -1,4 +1,6 @@
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
+import { useMemo, useState } from 'react'
+import { Link } from 'react-router'
+import { Siren } from 'lucide-react'
 
 import {
   Pagination,
@@ -10,31 +12,24 @@ import {
   PaginationButton,
 } from '@/components/ui/pagination'
 import { FlowPreview } from '@/components/flow-preview'
-import ProfileService from '@/services/ProfileService'
-import { useMemo, useState } from 'react'
-import { Siren } from 'lucide-react'
-import { Link } from 'react-router'
 import { ROUTES_PATHS } from '@/routes/paths'
+import { Posts } from '@/schemas/posts/posts.schema'
 
-export function History() {
+interface PostsGridProps {
+  hasNextPage: boolean
+  fetchNextPage: () => Promise<void>
+  pages: Posts[]
+}
+
+export function PostsGrid({
+  fetchNextPage,
+  hasNextPage,
+  pages,
+}: PostsGridProps) {
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
 
-  const {
-    data: history,
-    fetchNextPage,
-    hasNextPage,
-  } = useSuspenseInfiniteQuery({
-    queryKey: ['profile-get-user-post-history'],
-    queryFn: async ({ pageParam }) => ProfileService.getHistory(pageParam),
-    initialPageParam: 1,
-    getNextPageParam(lastPage, _allPages, lastPageParam) {
-      return lastPage.hasNextPage ? lastPageParam + 1 : undefined
-    },
-    refetchOnMount: false,
-  })
-
   const posts = useMemo(() => {
-    const lastPage = history.pages[currentPageIndex]?.posts ?? []
+    const lastPage = pages[currentPageIndex]?.posts ?? []
 
     return lastPage
   }, [currentPageIndex])
@@ -80,7 +75,7 @@ export function History() {
             />
           </PaginationItem>
           <PaginationItem>
-            {history.pages.map((_page, i) => (
+            {pages.map((_page, i) => (
               <PaginationButton
                 variant={i === currentPageIndex ? 'outline' : 'ghost'}
                 key={i}
@@ -105,9 +100,7 @@ export function History() {
                 }
                 setCurrentPageIndex((state) => state + 1)
               }}
-              disabled={
-                !hasNextPage && currentPageIndex === history.pages.length - 1
-              }
+              disabled={!hasNextPage && currentPageIndex === pages.length - 1}
             />
           </PaginationItem>
         </PaginationContent>
