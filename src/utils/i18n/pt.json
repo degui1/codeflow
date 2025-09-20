@@ -54,6 +54,14 @@
     "editProfile": "Editar perfil",
     "visualize": "Visualizar",
     "filter": "Filtrar",
-    "useTheFiltersToMakeYourSearchEasier": "Utilize os filtros para facilitar sua busca"
+    "useTheFiltersToMakeYourSearchEasier": "Utilize os filtros para facilitar sua busca",
+    "author": "Autor",
+    "startDate": "Data início",
+    "endDate": "Data fim",
+    "minimumDownloads": "Mínimo de downloads",
+    "schema": "Schema",
+    "pickADate": "Escolha uma data",
+    "previous": "Anterior",
+    "next": "Próximo"
   }
 }

@@ -93,9 +93,9 @@ export function Filter({ onChangeFilter }: FilterProps) {
               name="author"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Autor</FormLabel>
+                  <FormLabel>{t('author')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Autor" {...field} />
+                    <Input placeholder={t('author')} {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -108,27 +108,27 @@ export function Filter({ onChangeFilter }: FilterProps) {
               name="startDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Start date</FormLabel>
+                  <FormLabel>{t('startDate')}</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant={'outline'}
                           className={cn(
-                            'w-[240px] pl-3 text-left font-normal',
+                            'w-full pl-3 text-left font-normal',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
                           {field.value ? (
                             format(field.value, 'PPP')
                           ) : (
-                            <span>Pick a date</span>
+                            <span>{t('pickADate')}</span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent className="w-full p-0" align="start">
                       <Calendar
                         mode="single"
                         selected={field.value}
@@ -151,27 +151,27 @@ export function Filter({ onChangeFilter }: FilterProps) {
               name="endDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>End date</FormLabel>
+                  <FormLabel>{t('endDate')}</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant={'outline'}
                           className={cn(
-                            'w-[240px] pl-3 text-left font-normal',
+                            'w-full pl-3 text-left font-normal',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
                           {field.value ? (
                             format(field.value, 'PPP')
                           ) : (
-                            <span>Pick a date</span>
+                            <span>{t('pickADate')}</span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent className="w-full p-0" align="start">
                       <Calendar
                         mode="single"
                         selected={field.value}
@@ -194,10 +194,10 @@ export function Filter({ onChangeFilter }: FilterProps) {
               name="downloads"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Min. downloads</FormLabel>
+                  <FormLabel>{t('minimumDownloads')}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Min. downloads"
+                      placeholder={t('minimumDownloads')}
                       type="number"
                       {...field}
                     />
@@ -214,7 +214,7 @@ export function Filter({ onChangeFilter }: FilterProps) {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>Flow builder</FormLabel>
+                    <FormLabel>{t('schema')}</FormLabel>
 
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
@@ -243,7 +243,6 @@ export function Filter({ onChangeFilter }: FilterProps) {
 
       <CardFooter className="flex w-full flex-col space-y-2">
         <Button
-          // type="reset"
           size="full"
           variant="ghost"
           form="community-form-filter"

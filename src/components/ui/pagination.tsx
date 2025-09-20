@@ -9,6 +9,7 @@ import {
 import { cn } from '@/lib/utils'
 
 import { Button, buttonVariants } from '@/components/ui/button'
+import { useTranslation } from 'react-i18next'
 
 function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
   return (
@@ -87,6 +88,8 @@ function PaginationPreviousButton({
   className,
   ...props
 }: React.ComponentProps<typeof PaginationButton>) {
+  const { t } = useTranslation()
+
   return (
     <PaginationButton
       aria-label="Go to previous page"
@@ -96,7 +99,7 @@ function PaginationPreviousButton({
     >
       <ChevronLeftIcon />
 
-      <span className="hidden sm:block">Previous</span>
+      <span className="hidden sm:block">{t('previous')}</span>
     </PaginationButton>
   )
 }
@@ -105,6 +108,7 @@ function PaginationPrevious({
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
+  const { t } = useTranslation()
   return (
     <PaginationLink
       aria-label="Go to previous page"
@@ -114,7 +118,7 @@ function PaginationPrevious({
     >
       <ChevronLeftIcon />
 
-      <span className="hidden sm:block">Previous</span>
+      <span className="hidden sm:block">{t('previous')}</span>
     </PaginationLink>
   )
 }
@@ -123,6 +127,8 @@ function PaginationNextButton({
   className,
   ...props
 }: React.ComponentProps<typeof PaginationButton>) {
+  const { t } = useTranslation()
+
   return (
     <PaginationButton
       aria-label="Go to next page"
@@ -130,7 +136,7 @@ function PaginationNextButton({
       className={cn('gap-1 px-2.5 sm:pr-2.5', className)}
       {...props}
     >
-      <span className="hidden sm:block">Next</span>
+      <span className="hidden sm:block">{t('next')}</span>
 
       <ChevronRightIcon />
     </PaginationButton>
@@ -141,6 +147,7 @@ function PaginationNext({
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
+  const { t } = useTranslation()
   return (
     <PaginationLink
       aria-label="Go to next page"
@@ -148,7 +155,7 @@ function PaginationNext({
       className={cn('gap-1 px-2.5 sm:pr-2.5', className)}
       {...props}
     >
-      <span className="hidden sm:block">Next</span>
+      <span className="hidden sm:block">{t('next')}</span>
 
       <ChevronRightIcon />
     </PaginationLink>

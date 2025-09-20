@@ -25,11 +25,19 @@ export function FlowSelectorLoading() {
         </Select>
       </Skeleton>
 
-      <Skeleton>
-        <Button disabled variant={'ghost'} className="w-full opacity-0">
-          {t('loading')}
-        </Button>
-      </Skeleton>
+      <div className="flex justify-end space-x-2">
+        <Skeleton>
+          <Button disabled variant={'destructive'} className="w-full opacity-0">
+            <span className="opacity-0">{t('cancel')}</span>
+          </Button>
+        </Skeleton>
+
+        <Skeleton>
+          <Button disabled variant={'ghost'} className="w-full opacity-0">
+            <span className="opacity-0">{t('send')}</span>
+          </Button>
+        </Skeleton>
+      </div>
     </div>
   )
 }
