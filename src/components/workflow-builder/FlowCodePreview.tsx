@@ -21,7 +21,13 @@ self.MonacoEnvironment = {
   },
 }
 
-export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
+export function FlowCodePreview({
+  yamlCode,
+  isOwner,
+}: {
+  yamlCode: string
+  isOwner?: boolean
+}) {
   const editorRef = useRef<HTMLDivElement>(null)
   const monacoEditorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(
     null,
@@ -94,7 +100,7 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
     if (monacoEditorRef.current) {
       monacoEditorRef.current.updateOptions({ readOnly: editAsCode })
     }
-  }, [editAsCode])
+  }, [editAsCode, yamlCode])
 
   const handleCopy = () => {
     const value = monacoEditorRef.current?.getValue() || ''
@@ -120,39 +126,41 @@ export function FlowCodePreview({ yamlCode }: { yamlCode: string }) {
         >
           <MdContentCopy id="copy-code-preview" />
         </Button>
-
-        <Toggle
-          variant="outline"
-          className="cursor-pointer"
-          onClick={() => {
-            setEditAsCode(!editAsCode)
-          }}
-        >
-          <MdEdit />
-
-          {t('edit')}
-        </Toggle>
       </div>
 
       <div ref={editorRef} id="code-editor" className="flex-1" />
 
       <div className="flex flex-row justify-end space-x-2">
-        <Button
-          className="mr-auto"
-          variant="ghost"
-          onClick={() => resetChanges()}
-        >
-          {t('undoChanges')}
-        </Button>
+        {isOwner && (
+          <>
+            <Toggle
+              variant="outline"
+              className="cursor-pointer"
+              onClick={() => {
+                setEditAsCode(!editAsCode)
+              }}
+            >
+              <MdEdit />
 
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => downloadFile(yamlCode)}
-        >
-          {t('download')}
-        </Button>
-        <Button size="sm">{t('post')}</Button>
+              {t('edit')}
+            </Toggle>
+            <Button
+              className="mr-auto"
+              variant="ghost"
+              onClick={() => resetChanges()}
+            >
+              {t('undoChanges')}
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => downloadFile(yamlCode)}
+            >
+              {t('download')}
+            </Button>
+            <Button size="sm">{t('post')}</Button>
+          </>
+        )}
       </div>
     </div>
   )

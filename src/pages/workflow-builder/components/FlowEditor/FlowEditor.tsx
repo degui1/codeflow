@@ -27,5 +27,7 @@ export function FlowEditor() {
     }
   }, [])
 
-  return flowStringified ? <FlowCodePreview yamlCode={flowStringified} /> : null
+  return flowStringified ? (
+    <FlowCodePreview isOwner yamlCode={flowStringified} />
+  ) : null
 }
