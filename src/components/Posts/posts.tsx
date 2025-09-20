@@ -9,7 +9,7 @@ import {
   PaginationNextButton,
   PaginationButton,
 } from '@/components/ui/pagination'
-import { FlowPreview } from '@/components/flow-preview'
+import { FlowPreview } from '@/components/Flow/flow-preview'
 import { Posts } from '@/schemas/posts/posts.schema'
 import { useUserInfo } from '@/hooks/useUserInfo'
 

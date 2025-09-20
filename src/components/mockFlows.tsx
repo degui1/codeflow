@@ -1,4 +1,4 @@
-import { Template } from './flow-preview'
+import { Template } from './Flow/flow-preview'
 
 export const mockFlows: Template[] = [
   {

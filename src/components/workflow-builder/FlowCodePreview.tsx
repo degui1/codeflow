@@ -21,13 +21,17 @@ self.MonacoEnvironment = {
   },
 }
 
-export function FlowCodePreview({
-  yamlCode,
-  isOwner,
-}: {
+interface FlowCodePreviewProps {
   yamlCode: string
   isOwner?: boolean
-}) {
+  isPreview?: boolean
+}
+
+export function FlowCodePreview({
+  yamlCode,
+  isOwner = false,
+  isPreview = false,
+}: FlowCodePreviewProps) {
   const editorRef = useRef<HTMLDivElement>(null)
   const monacoEditorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(
     null,
@@ -126,6 +130,7 @@ export function FlowCodePreview({
         >
           <MdContentCopy id="copy-code-preview" />
         </Button>
+
         <Toggle
           variant="outline"
           className="cursor-pointer"
@@ -142,25 +147,22 @@ export function FlowCodePreview({
       <div ref={editorRef} id="code-editor" className="flex-1" />
 
       <div className="flex flex-row justify-end space-x-2">
-        {isOwner && (
-          <>
-            <Button
-              className="mr-auto"
-              variant="ghost"
-              onClick={() => resetChanges()}
-            >
-              {t('undoChanges')}
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => downloadFile(yamlCode)}
-            >
-              {t('download')}
-            </Button>
-            <Button size="sm">{t('post')}</Button>
-          </>
-        )}
+        <Button
+          className="mr-auto"
+          variant="ghost"
+          onClick={() => resetChanges()}
+        >
+          {t('undoChanges')}
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => downloadFile(yamlCode)}
+        >
+          {t('download')}
+        </Button>
+
+        {!isPreview && <Button size="sm">{t('post')}</Button>}
       </div>
     </div>
   )
