@@ -27,7 +27,9 @@ export const postsSchema = z.object({
         likes: z.number(),
       }),
       flow: z.object({
-        content: z.string(),
+        content: z
+          .string()
+          .transform((content) => content.replace(/\\n/g, '\n')),
       }),
       user: z.object({
         username: z.string(),

@@ -103,6 +103,11 @@ export function FlowCodePreview({
   useEffect(() => {
     if (monacoEditorRef.current) {
       monacoEditorRef.current.updateOptions({ readOnly: editAsCode })
+
+      const model = monacoEditorRef.current.getModel()
+      if (model && model.getValue() !== yamlCode) {
+        model.setValue(yamlCode)
+      }
     }
   }, [editAsCode, yamlCode])
 
@@ -162,7 +167,7 @@ export function FlowCodePreview({
           {t('download')}
         </Button>
 
-        {!isPreview && <Button size="sm">{t('post')}</Button>}
+        {!isPreview && !isOwner && <Button size="sm">{t('post')}</Button>}
       </div>
     </div>
   )

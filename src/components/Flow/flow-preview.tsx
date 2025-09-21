@@ -72,10 +72,7 @@ export function FlowPreview({
               >
                 {t('visualize')}
               </Button>
-              <FlowVisualizer
-                open={isVisualizerOpened}
-                onClose={() => setIsVisualizerOpened(false)}
-              />
+
               <Button
                 variant="outline"
                 size="full"
@@ -98,6 +95,15 @@ export function FlowPreview({
           </Button>
         </footer>
       </div>
+
+      {isVisualizerOpened && (
+        <FlowVisualizer
+          open={isVisualizerOpened}
+          onClose={() => setIsVisualizerOpened(false)}
+          code={code}
+          title={title}
+        />
+      )}
     </>
   )
 }
