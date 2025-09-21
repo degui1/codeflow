@@ -19,7 +19,6 @@ export const authStore = create<AuthStore>((set) => ({
     return isAuth
   },
   reset() {
-    document.cookie = `${SESSION_COOKIE}=; max-age=0; path=/`
     set({ isAuthenticated: false })
   },
 }))
