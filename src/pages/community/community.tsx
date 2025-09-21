@@ -1,10 +1,12 @@
+import { useState } from 'react'
+
 import { Filter } from '@/components/filter'
 import { SafeSuspense } from '@/components/safe-suspense'
+import { CommunityPostsFilterForm } from '@/schemas/posts/posts.schema'
+import { FilterLoading } from '@/components/filter.loading'
 
 import { HistoryLoading } from '../../components/Posts/posts.loading'
 import { CommunityPosts } from './community-posts'
-import { useState } from 'react'
-import { CommunityPostsFilterForm } from '@/schemas/posts/posts.schema'
 
 export function Community() {
   const [filters, setFilters] = useState<CommunityPostsFilterForm>({})
@@ -12,7 +14,7 @@ export function Community() {
   return (
     <div className="flex w-full max-w-[1360px] flex-1 flex-col gap-7 lg:flex-row lg:self-center">
       <aside className="flex w-full flex-col items-center justify-between space-y-5 sm:flex-1 md:space-y-0 lg:max-w-[300px]">
-        <SafeSuspense fallback={<div>loading</div>}>
+        <SafeSuspense fallback={<FilterLoading />}>
           <Filter onChangeFilter={setFilters} />
         </SafeSuspense>
       </aside>
