@@ -15,18 +15,32 @@ import { useUserInfo } from '@/hooks/useUserInfo'
 import { useState } from 'react'
 import { Settings } from './settings'
 import { useTranslation } from 'react-i18next'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { request } from '@/api/api-client'
+import { z } from 'zod'
 
-interface UserPanelProps {
-  posts: number
-  likes: number
-}
+const userSummarySchema = z.object({
+  flows: z.number(),
+  likes: z.number(),
+})
 
-export function UserPanel({ likes, posts }: UserPanelProps) {
+export function UserPanel() {
   const [isSettingsOpened, setIsSettingsOpened] = useState(false)
 
   const { logout } = useAuth()
   const { data: dataUser } = useUserInfo()
   const { t } = useTranslation()
+
+  const { data: summary } = useSuspenseQuery({
+    queryKey: ['profile-get-user-summary'],
+    queryFn: async () => {
+      const response = await request('GET', '/me/summary')
+
+      const data = userSummarySchema.parse(await response.json())
+
+      return data
+    },
+  })
 
   return (
     <>
@@ -52,12 +66,12 @@ export function UserPanel({ likes, posts }: UserPanelProps) {
         <CardContent className="flex w-full flex-1 flex-col space-y-4">
           <div className="bg-foreground/10 flex justify-between rounded-md px-4 py-2">
             <span className="font-semibold">{t('flows')}</span>
-            <span className="font-bold">{posts}</span>
+            <span className="font-bold">{summary.flows}</span>
           </div>
 
           <div className="bg-foreground/10 flex justify-between rounded-md px-4 py-2">
             <span className="font-semibold">{t('likes')}</span>
-            <span className="font-bold">{likes}</span>
+            <span className="font-bold">{summary.likes}</span>
           </div>
         </CardContent>
 
