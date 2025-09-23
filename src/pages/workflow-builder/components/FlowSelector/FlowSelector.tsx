@@ -141,7 +141,12 @@ export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
             {t('cancel')}
           </Button>
 
-          <Button type="submit" variant="outline" size="sm">
+          <Button
+            type="submit"
+            variant="outline"
+            size="sm"
+            disabled={form.formState.isSubmitSuccessful}
+          >
             {t('send')}
           </Button>
         </div>
