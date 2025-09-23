@@ -8,6 +8,7 @@ import * as monaco from 'monaco-editor'
 import { Button } from '../ui/button'
 import { Toggle } from '../ui/toggle'
 import { downloadFile } from '@/utils/downloadFile'
+import { CreatePost } from '@/pages/workflow-builder/components/CreatePost'
 
 self.MonacoEnvironment = {
   getWorkerUrl: function (_: unknown, label: string) {
@@ -29,7 +30,6 @@ interface FlowCodePreviewProps {
 
 export function FlowCodePreview({
   yamlCode,
-  isOwner = false,
   isPreview = false,
 }: FlowCodePreviewProps) {
   const editorRef = useRef<HTMLDivElement>(null)
@@ -40,6 +40,7 @@ export function FlowCodePreview({
   const { t } = useTranslation()
 
   const [editAsCode, setEditAsCode] = useState(true)
+  const [isPostOpened, setIsPostOpened] = useState(false)
 
   useEffect(() => {
     configureMonacoYaml(monaco)
@@ -124,51 +125,65 @@ export function FlowCodePreview({
   }
 
   return (
-    <div className="flex w-full max-w-[400px] flex-col gap-4">
-      <div className="flex flex-row justify-end space-x-2">
-        <Button
-          variant="secondary"
-          onClick={() => {
-            handleCopy()
-            toast.info(t('copiedToClipboard'))
-          }}
-        >
-          <MdContentCopy id="copy-code-preview" />
-        </Button>
+    <>
+      <div className="flex w-full max-w-[400px] flex-col gap-4">
+        <div className="flex flex-row justify-end space-x-2">
+          <Button
+            variant="secondary"
+            onClick={() => {
+              handleCopy()
+              toast.info(t('copiedToClipboard'))
+            }}
+          >
+            <MdContentCopy id="copy-code-preview" />
+          </Button>
 
-        <Toggle
-          variant="outline"
-          className="cursor-pointer"
-          onClick={() => {
-            setEditAsCode(!editAsCode)
-          }}
-        >
-          <MdEdit />
+          <Toggle
+            variant="outline"
+            className="cursor-pointer"
+            onClick={() => {
+              setEditAsCode(!editAsCode)
+            }}
+          >
+            <MdEdit />
 
-          {t('edit')}
-        </Toggle>
+            {t('edit')}
+          </Toggle>
+        </div>
+
+        <div ref={editorRef} id="code-editor" className="flex-1" />
+
+        <div className="flex flex-row justify-end space-x-2">
+          <Button
+            className="mr-auto"
+            variant="ghost"
+            onClick={() => resetChanges()}
+          >
+            {t('undoChanges')}
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => downloadFile(yamlCode)}
+          >
+            {t('download')}
+          </Button>
+
+          {!isPreview && (
+            <Button size="sm" onClick={() => setIsPostOpened(true)}>
+              {t('post')}
+            </Button>
+          )}
+        </div>
       </div>
 
-      <div ref={editorRef} id="code-editor" className="flex-1" />
-
-      <div className="flex flex-row justify-end space-x-2">
-        <Button
-          className="mr-auto"
-          variant="ghost"
-          onClick={() => resetChanges()}
-        >
-          {t('undoChanges')}
-        </Button>
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => downloadFile(yamlCode)}
-        >
-          {t('download')}
-        </Button>
-
-        {!isPreview && !isOwner && <Button size="sm">{t('post')}</Button>}
-      </div>
-    </div>
+      {!isPreview && (
+        <CreatePost
+          open={isPostOpened}
+          onClose={() => setIsPostOpened(false)}
+          code={yamlCode}
+        />
+      )}
+    </>
   )
 }

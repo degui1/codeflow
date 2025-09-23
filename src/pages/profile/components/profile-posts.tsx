@@ -21,7 +21,6 @@ export function ProfilePosts() {
     getNextPageParam(lastPage, _allPages, lastPageParam) {
       return lastPage.hasNextPage ? lastPageParam + 1 : undefined
     },
-    refetchOnMount: false,
   })
 
   return (

@@ -26,6 +26,7 @@ import { Button } from '@/components/ui/button'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useEffect } from 'react'
+import { useFlowStore } from '@/hooks/useFlowStore'
 
 const flowSchemas = z.array(
   z.object({
@@ -47,6 +48,7 @@ interface FlowSelectorProps {
 export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
   const { t } = useTranslation()
   const { socket } = useFlowContext()
+  const { setFlowSchemaId } = useFlowStore()
 
   const form = useForm<FlowSchemaSelectorForm>({
     resolver: zodResolver(flowSchemaSelectorFormSchema),
@@ -66,9 +68,9 @@ export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
     },
   })
 
-  function onSubmit(data: FlowSchemaSelectorForm) {
+  function onSubmit(submittedData: FlowSchemaSelectorForm) {
     socket.emit('get-flow-schema', {
-      flowSchemaId: data.flowSchemaId,
+      flowSchemaId: submittedData.flowSchemaId,
     })
 
     socket.on('get-flow-schema', (ASchema) => {
@@ -76,6 +78,8 @@ export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
 
       if (success && data) {
         onChangeSchema(data)
+
+        setFlowSchemaId(submittedData.flowSchemaId)
 
         return
       }
@@ -135,6 +139,7 @@ export function FlowSelector({ onChangeSchema }: FlowSelectorProps) {
             onClick={() => {
               form.reset()
               onChangeSchema(null)
+              setFlowSchemaId('')
             }}
             size="sm"
           >

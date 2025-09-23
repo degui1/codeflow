@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react'
+import { z } from 'zod'
+
 import { FlowCodePreview } from '@/components/workflow-builder/FlowCodePreview'
 
-import { useEffect, useState } from 'react'
 import { useFlowContext } from '../../hooks/useFlowContext'
-import { z } from 'zod'
 
 const flowStringifiedSchema = z.object({
   flow: z.string(),
@@ -27,7 +28,7 @@ export function FlowEditor() {
     }
   }, [])
 
-  return flowStringified ? (
-    <FlowCodePreview isOwner yamlCode={flowStringified} />
-  ) : null
+  return (
+    <>{flowStringified && <FlowCodePreview yamlCode={flowStringified} />}</>
+  )
 }

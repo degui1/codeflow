@@ -62,6 +62,10 @@
     "schema": "Schema",
     "pickADate": "Pick a date",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "title": "Title",
+    "description": "Description",
+    "postDateOfCreationFormat": "EEEE, MMMM dd, yyyy 'at' h:mm a",
+    "postDateOfCreationTitle": "Post created!"
   }
 }
