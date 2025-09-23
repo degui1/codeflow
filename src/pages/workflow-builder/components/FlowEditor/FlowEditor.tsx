@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { FlowCodePreview } from '@/components/workflow-builder/FlowCodePreview'
 
 import { useFlowContext } from '../../hooks/useFlowContext'
+import { ScrollRestoration } from 'react-router'
 
 const flowStringifiedSchema = z.object({
   flow: z.string(),
@@ -29,6 +30,14 @@ export function FlowEditor() {
   }, [])
 
   return (
-    <>{flowStringified && <FlowCodePreview yamlCode={flowStringified} />}</>
+    <>
+      {flowStringified && (
+        <>
+          <ScrollRestoration />
+
+          <FlowCodePreview yamlCode={flowStringified} />
+        </>
+      )}
+    </>
   )
 }

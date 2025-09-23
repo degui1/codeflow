@@ -151,7 +151,11 @@ export function FlowCodePreview({
           </Toggle>
         </div>
 
-        <div ref={editorRef} id="code-editor" className="flex-1" />
+        <div
+          ref={editorRef}
+          id="code-editor"
+          className="min-h-96 flex-1 md:h-full"
+        />
 
         <div className="flex flex-row justify-end space-x-2">
           <Button
@@ -181,7 +185,7 @@ export function FlowCodePreview({
         <CreatePost
           open={isPostOpened}
           onClose={() => setIsPostOpened(false)}
-          code={yamlCode}
+          code={monacoEditorRef.current?.getValue() ?? yamlCode}
         />
       )}
     </>

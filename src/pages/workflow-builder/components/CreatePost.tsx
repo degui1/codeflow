@@ -18,6 +18,7 @@ import { useFlowStore } from '@/hooks/useFlowStore'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,10 +28,18 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from '@/hooks/useRouter'
 import { format } from '@/utils/format'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const createPostFormSchema = z.object({
   title: z.string(),
   description: z.string(),
+  visibility: z.enum(['PRIVATE', 'PUBLIC']),
 })
 
 type CreatePostForm = z.infer<typeof createPostFormSchema>
@@ -48,26 +57,32 @@ export function CreatePost({ open, onClose, code }: CreatePostProps) {
 
   const form = useForm<CreatePostForm>({
     resolver: zodResolver(createPostFormSchema),
-    defaultValues: {},
+    defaultValues: {
+      visibility: 'PRIVATE',
+    },
   })
 
   const createPostMutation = useMutation({
     mutationFn: async ({
       title,
       description,
+      visibility,
     }: {
       title: string
       description: string
+      visibility: 'PUBLIC' | 'PRIVATE'
     }) => {
       await request('POST', '/posts', {
         flowSchemaId,
         content: code,
         description,
         title,
+        visibility,
       })
     },
     onSuccess() {
       onClose()
+
       toast(t('postDateOfCreationTitle'), {
         description: format(new Date(), t('postDateOfCreationFormat')),
         action: {
@@ -97,6 +112,7 @@ export function CreatePost({ open, onClose, code }: CreatePostProps) {
                 createPostMutation.mutateAsync({
                   title: data.title,
                   description: data.description,
+                  visibility: data.visibility,
                 })
               })}
             >
@@ -125,6 +141,43 @@ export function CreatePost({ open, onClose, code }: CreatePostProps) {
                       <Input placeholder={t('description')} {...field} />
                     </FormControl>
 
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="visibility"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Visibilidade</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue
+                            className="w-full"
+                            placeholder="Select a visibility"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {['PUBLIC', 'PRIVATE'].map((option) => {
+                          return (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          )
+                        })}
+                      </SelectContent>
+                    </Select>
+
+                    <FormDescription>
+                      Escolha a visibilidade do post
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
