@@ -1,3 +1,4 @@
+import { Autocomplete } from '@/components/autocomplete'
 import { Help } from '@/components/help'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -54,28 +55,36 @@ export function FlowField({
       <div className="flex w-full items-center justify-center gap-3">
         <Label className="lg:w-32">{field.label}</Label>
         <Help info={field.help ?? ''}>
-          <Select
-            onValueChange={(value) =>
-              field.type === 'list' || field.type === 'object'
-                ? onCompleteInput([value])
-                : onCompleteInput(value)
-            }
-            disabled={isSubmitting}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue id={key} placeholder={field.label} />
-            </SelectTrigger>
-            <SelectContent>
-              {field.defaultValues.map((defaultValue) => (
-                <SelectItem
-                  key={String(defaultValue)}
-                  value={String(defaultValue)}
-                >
-                  {String(defaultValue)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {field.type === 'list' ? (
+            <Autocomplete
+              options={field.defaultValues as string[]}
+              onChange={(list) => onCompleteInput(list)}
+              placeholder={field.label}
+            />
+          ) : (
+            <Select
+              onValueChange={(value) =>
+                field.type === 'list' || field.type === 'object'
+                  ? onCompleteInput([value])
+                  : onCompleteInput(value)
+              }
+              disabled={isSubmitting}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue id={key} placeholder={field.label} />
+              </SelectTrigger>
+              <SelectContent>
+                {field.defaultValues.map((defaultValue) => (
+                  <SelectItem
+                    key={String(defaultValue)}
+                    value={String(defaultValue)}
+                  >
+                    {String(defaultValue)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </Help>
       </div>
     )
