@@ -165,10 +165,13 @@ export function FlowCodePreview({
           >
             {t('undoChanges')}
           </Button>
+
           <Button
             size="sm"
             variant="ghost"
-            onClick={() => downloadFile(yamlCode)}
+            onClick={() =>
+              downloadFile(monacoEditorRef.current?.getValue() ?? yamlCode)
+            }
           >
             {t('download')}
           </Button>

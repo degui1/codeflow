@@ -115,7 +115,7 @@ export function Filter({ onChangeFilter }: FilterProps) {
                         <Button
                           variant={'outline'}
                           className={cn(
-                            'w-full pl-3 text-left font-normal',
+                            'bg-input/30 hover:bg-input/50 w-full pl-3 text-left font-normal',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
@@ -158,7 +158,7 @@ export function Filter({ onChangeFilter }: FilterProps) {
                         <Button
                           variant={'outline'}
                           className={cn(
-                            'w-full pl-3 text-left font-normal',
+                            'bg-input/30 hover:bg-input/50 w-full pl-3 text-left font-normal',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
