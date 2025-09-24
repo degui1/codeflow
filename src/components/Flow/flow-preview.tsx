@@ -1,30 +1,31 @@
-import { ThumbsUp } from 'lucide-react'
-import { FlowCanvas } from './flow-canvas'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ThumbsUp, Settings, Eye, Download } from 'lucide-react'
+
+import { downloadFile } from '@/utils/downloadFile'
+
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
-import { useEffect, useState } from 'react'
-import { downloadFile } from '@/utils/downloadFile'
-import { useTranslation } from 'react-i18next'
+import { FlowCanvas } from './flow-canvas'
 import { FlowVisualizer } from './flow-visualizer'
+import { EditPost } from '@/pages/workflow-builder/components/UpdatePost'
+import { Post } from '@/schemas/posts/posts.schema'
 
 export interface Template {
-  title: string
-  code: string
-  author: string
-  likes: number
   isOwner?: boolean
+  canEdit?: boolean
+  post: Post
 }
 
 export function FlowPreview({
-  title,
-  code,
-  author,
-  likes,
+  post,
   isOwner = false,
+  canEdit = false,
 }: Template) {
   const [showActions, setShowActions] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isVisualizerOpened, setIsVisualizerOpened] = useState(false)
+  const [isEditingPost, setIsEditingPost] = useState(false)
 
   const { t } = useTranslation()
 
@@ -47,8 +48,23 @@ export function FlowPreview({
   return (
     <>
       <div className="flex flex-col space-y-1">
-        <header>
-          <h1 className="">{title}</h1>
+        <header className="flex items-center justify-between">
+          <h1 className="flex-1">{post.title}</h1>
+
+          {isOwner && canEdit && (
+            <div>
+              <Button
+                variant="ghost"
+                className="w-full"
+                size="icon"
+                aria-label="icons"
+                disabled={isEditingPost}
+                onClick={() => setIsEditingPost(true)}
+              >
+                <Settings className="size-4" />
+              </Button>
+            </div>
+          )}
         </header>
 
         <main className="flex flex-1">
@@ -59,7 +75,7 @@ export function FlowPreview({
             <div
               className={`flex h-full w-full flex-1 items-center justify-center p-0 transition-opacity duration-300 ${showActions ? 'opacity-0' : 'opacity-100'} md:group-hover:opacity-0`}
             >
-              <FlowCanvas code={code} />
+              <FlowCanvas code={post.flow.content} />
             </div>
             <div
               className={`absolute inset-0 flex w-full flex-1 flex-col items-center justify-center gap-4 px-4 text-center opacity-0 transition-opacity duration-300 ${showActions ? 'opacity-100' : 'opacity-0'} md:group-hover:opacity-100`}
@@ -68,18 +84,26 @@ export function FlowPreview({
                 variant="outline"
                 className="w-full"
                 disabled={isVisualizerOpened}
-                onClick={() => setIsVisualizerOpened(true)}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setIsVisualizerOpened(true)
+                }}
               >
+                <Eye className="size-4" />
                 {t('visualize')}
               </Button>
 
               <Button
                 variant="outline"
                 size="full"
-                onClick={() => {
-                  downloadFile(code)
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  downloadFile(post.flow.content, `${post.title}.yaml`)
                 }}
               >
+                <Download className="size-4" />
                 {t('download')}
               </Button>
             </div>
@@ -87,11 +111,13 @@ export function FlowPreview({
         </main>
 
         <footer className="flex w-full items-baseline justify-between text-xs">
-          <span className="text-left font-bold text-gray-400">by {author}</span>
+          <span className="text-left font-bold text-gray-400">
+            by {post.user.username}
+          </span>
 
           <Button size="sm" variant="ghost" disabled={isOwner}>
             <ThumbsUp />
-            <span>{likes}</span>
+            <span>{post._count.likes}</span>
           </Button>
         </footer>
       </div>
@@ -100,8 +126,16 @@ export function FlowPreview({
         <FlowVisualizer
           open={isVisualizerOpened}
           onClose={() => setIsVisualizerOpened(false)}
-          code={code}
-          title={title}
+          code={post.flow.content}
+          title={post.title}
+        />
+      )}
+
+      {isOwner && isEditingPost && (
+        <EditPost
+          open={isEditingPost}
+          onClose={() => setIsEditingPost(false)}
+          post={post}
         />
       )}
     </>

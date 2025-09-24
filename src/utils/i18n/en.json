@@ -66,6 +66,14 @@
     "title": "Title",
     "description": "Description",
     "postDateOfCreationFormat": "EEEE, MMMM dd, yyyy 'at' h:mm a",
-    "postDateOfCreationTitle": "Post created!"
+    "postDateOfCreationTitle": "Post created!",
+    "postUpdated": "Post updated!",
+    "deletePost": "Delete post",
+    "areYouAbsolutelySure": "Are you absolutely sure?",
+    "deletePostWarning": "This action cannot be undone. This will permanently delete your post from our servers.",
+    "postDeleted": "Post deleted!",
+    "selectAVisibility": "Select a visibility",
+    "selectPostVisibility": "Select post visibility",
+    "visibility": "Visibility"
   }
 }

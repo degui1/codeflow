@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import {
   Pagination,
@@ -18,6 +18,7 @@ interface PostsGridProps {
   fetchNextPage: () => Promise<void>
   pages: Posts[]
   emptyFallback: () => React.JSX.Element
+  canEdit?: boolean
 }
 
 export function PostsGrid({
@@ -25,16 +26,14 @@ export function PostsGrid({
   hasNextPage,
   pages,
   emptyFallback: EmptyFallback,
+  canEdit = false,
 }: PostsGridProps) {
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
 
   const { data: userData } = useUserInfo()
 
-  const posts = useMemo(() => {
-    const lastPage = pages[currentPageIndex]?.posts ?? []
-
-    return lastPage
-  }, [currentPageIndex])
+  const lastPage = pages[currentPageIndex]?.posts ?? []
+  const posts = lastPage
 
   return (
     <div className="flex w-full flex-1 flex-col">
@@ -44,11 +43,9 @@ export function PostsGrid({
         {posts.map((post) => (
           <FlowPreview
             key={post.id}
-            author={post.user.username}
-            code={post.flow.content}
-            likes={post._count.likes}
-            title={post.title}
+            post={post}
             isOwner={post.user_id === userData?.id}
+            canEdit={canEdit}
           />
         ))}
       </section>

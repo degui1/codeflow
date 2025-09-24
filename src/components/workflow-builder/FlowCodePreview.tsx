@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdContentCopy, MdEdit } from 'react-icons/md'
 import { configureMonacoYaml } from 'monaco-yaml'
@@ -22,16 +28,19 @@ self.MonacoEnvironment = {
   },
 }
 
+export type FlowCodePreviewRef = {
+  getContent: () => string
+}
+
 interface FlowCodePreviewProps {
   yamlCode: string
-  isOwner?: boolean
   isPreview?: boolean
 }
 
-export function FlowCodePreview({
-  yamlCode,
-  isPreview = false,
-}: FlowCodePreviewProps) {
+export const FlowCodePreview = forwardRef<
+  FlowCodePreviewRef,
+  FlowCodePreviewProps
+>(({ yamlCode, isPreview = false }, ref) => {
   const editorRef = useRef<HTMLDivElement>(null)
   const monacoEditorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(
     null,
@@ -124,6 +133,10 @@ export function FlowCodePreview({
     }
   }
 
+  useImperativeHandle(ref, () => {
+    return { getContent: () => monacoEditorRef.current?.getValue() ?? '' }
+  }, [])
+
   return (
     <>
       <div className="flex w-full max-w-[400px] flex-col gap-4">
@@ -193,4 +206,6 @@ export function FlowCodePreview({
       )}
     </>
   )
-}
+})
+
+FlowCodePreview.displayName = 'FlowCodePreview'

@@ -14,7 +14,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useFlowStore } from '@/hooks/useFlowStore'
 import {
   Form,
   FormControl,
@@ -26,8 +25,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from '@/hooks/useRouter'
-import { format } from '@/utils/format'
+
 import {
   Select,
   SelectContent,
@@ -35,61 +33,104 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Post } from '@/schemas/posts/posts.schema'
+import { queryClient } from '@/lib/react-query'
+import {
+  FlowCodePreview,
+  FlowCodePreviewRef,
+} from '@/components/workflow-builder/FlowCodePreview'
+import { useRef } from 'react'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
-const createPostFormSchema = z.object({
+const editPostFormSchema = z.object({
   title: z.string(),
   description: z.string(),
   visibility: z.enum(['PRIVATE', 'PUBLIC']),
 })
 
-type CreatePostForm = z.infer<typeof createPostFormSchema>
+type EditPostForm = z.infer<typeof editPostFormSchema>
 
-interface CreatePostProps {
+interface EditPostProps {
   open: boolean
   onClose: VoidFunction
-  code: string
+  post: Post
 }
 
-export function CreatePost({ open, onClose, code }: CreatePostProps) {
-  const { flowSchemaId } = useFlowStore()
+export function EditPost({ open, onClose, post }: EditPostProps) {
+  const editorRef = useRef<FlowCodePreviewRef>(null)
   const { t } = useTranslation()
-  const { navigate } = useRouter()
 
-  const form = useForm<CreatePostForm>({
-    resolver: zodResolver(createPostFormSchema),
+  const form = useForm<EditPostForm>({
+    resolver: zodResolver(editPostFormSchema),
     defaultValues: {
-      visibility: 'PRIVATE',
+      title: post.title,
+      description: post.description,
+      visibility: post.visibility,
     },
   })
 
-  const createPostMutation = useMutation({
+  const editPostMutation = useMutation({
     mutationFn: async ({
       title,
       description,
       visibility,
     }: {
-      title: string
-      description: string
-      visibility: 'PUBLIC' | 'PRIVATE'
+      title?: string
+      description?: string
+      visibility?: 'PUBLIC' | 'PRIVATE'
     }) => {
-      await request('POST', '/posts', {
-        flowSchemaId,
-        content: code,
-        description,
-        title,
-        visibility,
+      await request('PATCH', '/posts', {
+        ...(editorRef.current?.getContent() !== post.flow.content && {
+          content: editorRef.current?.getContent(),
+        }),
+        description: description,
+        title: title,
+        visibility: visibility,
+        id: post.id,
       })
     },
-    onSuccess() {
+    async onSuccess() {
+      queryClient.refetchQueries({
+        queryKey: ['profile-get-user-post-history'],
+      })
+
       onClose()
 
-      toast(t('postDateOfCreationTitle'), {
-        description: format(new Date(), t('postDateOfCreationFormat')),
-        action: {
-          label: t('visualize'),
-          onClick: () => navigate('PROFILE'),
-        },
+      toast(t('postUpdated'))
+    },
+    onError(error) {
+      toast.error(error.message)
+    },
+  })
+
+  const deletePostMutation = useMutation({
+    mutationFn: async () => {
+      await request('DELETE', '/posts', {
+        id: post.id,
       })
+    },
+    async onSuccess() {
+      queryClient.refetchQueries({
+        queryKey: ['profile-get-user-post-history'],
+      })
+
+      queryClient.refetchQueries({
+        queryKey: ['profile-get-user-summary'],
+      })
+
+      onClose()
+
+      toast(t('postDeleted'))
     },
     onError(error) {
       toast.error(error.message)
@@ -98,18 +139,18 @@ export function CreatePost({ open, onClose, code }: CreatePostProps) {
 
   return (
     <Dialog modal open={open} onOpenChange={() => onClose()}>
-      <DialogContent className="flex w-full flex-col">
+      <DialogContent className="flex w-full max-w-max flex-col">
         <DialogHeader>
           <DialogTitle className="text-center"></DialogTitle>
         </DialogHeader>
 
-        <div className="flex w-full flex-1 justify-center">
+        <div className="flex w-full flex-1 flex-col items-center">
           <Form {...form}>
             <form
               id="community-form-filter"
               className="flex w-full flex-col space-y-6"
               onSubmit={form.handleSubmit((data) => {
-                createPostMutation.mutateAsync({
+                editPostMutation.mutateAsync({
                   title: data.title,
                   description: data.description,
                   visibility: data.visibility,
@@ -184,9 +225,44 @@ export function CreatePost({ open, onClose, code }: CreatePostProps) {
               />
             </form>
           </Form>
+
+          <FlowCodePreview
+            ref={editorRef}
+            yamlCode={post.flow.content}
+            isPreview
+          />
         </div>
 
         <DialogFooter>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" className="mr-auto">
+                {t('deletePost')}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>{t('areYouAbsolutelySure')}</AlertDialogTitle>
+                <AlertDialogDescription>
+                  {t('deletePostWarning')}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel disabled={deletePostMutation.isPending}>
+                  {t('cancel')}
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  disabled={deletePostMutation.isPending}
+                  onClick={async () => {
+                    deletePostMutation.mutateAsync()
+                  }}
+                >
+                  {t('deletePost')}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
           <DialogClose asChild>
             <Button
               variant="outline"
@@ -198,7 +274,11 @@ export function CreatePost({ open, onClose, code }: CreatePostProps) {
               {t('cancel')}
             </Button>
           </DialogClose>
-          <Button type="submit" form="community-form-filter">
+          <Button
+            type="submit"
+            form="community-form-filter"
+            disabled={editPostMutation.isPending}
+          >
             {t('save')}
           </Button>
         </DialogFooter>

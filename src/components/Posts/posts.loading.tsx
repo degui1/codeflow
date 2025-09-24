@@ -18,10 +18,19 @@ export function HistoryLoading() {
           <Skeleton key={post}>
             <span className="sr-only">
               <FlowPreview
-                author={''}
-                code={'Loading'}
-                likes={0}
-                title={''}
+                post={{
+                  _count: { likes: 0 },
+                  created_at: new Date(),
+                  description: '',
+                  downloads: 0,
+                  flow: { content: ' ' },
+                  id: ' ',
+                  title: '',
+                  updated_at: new Date(),
+                  user: { username: '' },
+                  user_id: '',
+                  visibility: 'PRIVATE',
+                }}
                 isOwner
               />
             </span>

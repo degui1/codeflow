@@ -31,6 +31,7 @@ export function ProfilePosts() {
       hasNextPage={hasNextPage}
       pages={history.pages}
       emptyFallback={EmptyProfilePosts}
+      canEdit
     />
   )
 }
