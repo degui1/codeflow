@@ -17,6 +17,10 @@ export async function request(
   if (!response.ok) {
     const error = await response.json()
 
+    if (import.meta.env.DEV) {
+      console.error(error)
+    }
+
     throw new Error(error.message)
   }
 

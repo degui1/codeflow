@@ -10,6 +10,7 @@ import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { FlowCanvas } from './flow-canvas'
 import { FlowVisualizer } from './flow-visualizer'
+import { useLikePost } from '@/hooks/useLikePost'
 
 export interface Template {
   isOwner?: boolean
@@ -29,6 +30,7 @@ export function FlowPreview({
 
   const { t } = useTranslation()
   const { downloadFlowMutation } = useDownloadFlow()
+  const { likePostMutation } = useLikePost()
 
   useEffect(() => {
     const checkMobile = () => {
@@ -117,10 +119,18 @@ export function FlowPreview({
 
         <footer className="flex w-full items-baseline justify-between text-xs">
           <span className="text-left font-bold text-gray-400">
-            by {post.user.username}
+            {t('by').toLowerCase()}{' '}
+            <span className="text-gray-100">{post.user.username}</span>
           </span>
 
-          <Button size="sm" variant="ghost" disabled={isOwner}>
+          <Button
+            size="sm"
+            variant="ghost"
+            disabled={isOwner || likePostMutation.isPending}
+            onClick={() => {
+              likePostMutation.mutateAsync(post.id)
+            }}
+          >
             <ThumbsUp />
             <span>{post._count.likes}</span>
           </Button>
