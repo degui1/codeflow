@@ -22,6 +22,7 @@ import { z } from 'zod'
 const userSummarySchema = z.object({
   flows: z.number(),
   likes: z.number(),
+  downloads: z.number(),
 })
 
 export function UserPanel() {
@@ -72,6 +73,11 @@ export function UserPanel() {
           <div className="bg-foreground/10 flex justify-between rounded-md px-4 py-2">
             <span className="font-semibold">{t('likes')}</span>
             <span className="font-bold">{summary.likes}</span>
+          </div>
+
+          <div className="bg-foreground/10 flex justify-between rounded-md px-4 py-2">
+            <span className="font-semibold">{t('downloads')}</span>
+            <span className="font-bold">{summary.downloads}</span>
           </div>
         </CardContent>
 

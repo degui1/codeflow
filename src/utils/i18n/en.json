@@ -75,6 +75,8 @@
     "selectAVisibility": "Select a visibility",
     "selectPostVisibility": "Select post visibility",
     "visibility": "Visibility",
-    "somethingWentWrong": "Oops, something went wrong"
+    "somethingWentWrong": "Oops, something went wrong",
+    "by": "By",
+    "downloads": "Downloads"
   }
 }
