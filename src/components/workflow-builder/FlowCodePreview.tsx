@@ -15,6 +15,7 @@ import { Button } from '../ui/button'
 import { Toggle } from '../ui/toggle'
 import { downloadFile } from '@/utils/downloadFile'
 import { CreatePost } from '@/pages/workflow-builder/components/CreatePost'
+import { useDownloadFlow } from '@/hooks/useDownloadFlow'
 
 self.MonacoEnvironment = {
   getWorkerUrl: function (_: unknown, label: string) {
@@ -35,18 +36,20 @@ export type FlowCodePreviewRef = {
 interface FlowCodePreviewProps {
   yamlCode: string
   isPreview?: boolean
+  postId?: string
 }
 
 export const FlowCodePreview = forwardRef<
   FlowCodePreviewRef,
   FlowCodePreviewProps
->(({ yamlCode, isPreview = false }, ref) => {
+>(({ yamlCode, isPreview = false, postId }, ref) => {
   const editorRef = useRef<HTMLDivElement>(null)
   const monacoEditorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(
     null,
   )
 
   const { t } = useTranslation()
+  const { downloadFlowMutation } = useDownloadFlow()
 
   const [editAsCode, setEditAsCode] = useState(true)
   const [isPostOpened, setIsPostOpened] = useState(false)
@@ -171,23 +174,38 @@ export const FlowCodePreview = forwardRef<
         />
 
         <div className="flex flex-row justify-end space-x-2">
-          <Button
-            className="mr-auto"
-            variant="ghost"
-            onClick={() => resetChanges()}
-          >
+          <Button variant="ghost" onClick={() => resetChanges()}>
             {t('undoChanges')}
           </Button>
 
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() =>
-              downloadFile(monacoEditorRef.current?.getValue() ?? yamlCode)
-            }
-          >
-            {t('download')}
-          </Button>
+          {!isPreview && postId && (
+            <Button
+              size="sm"
+              className="ml-auto"
+              variant="ghost"
+              onClick={() =>
+                downloadFlowMutation.mutateAsync({
+                  content: monacoEditorRef.current?.getValue() ?? yamlCode,
+                  postId,
+                })
+              }
+            >
+              {t('download')}
+            </Button>
+          )}
+
+          {isPreview && (
+            <Button
+              size="sm"
+              className="ml-auto"
+              variant="ghost"
+              onClick={() =>
+                downloadFile(monacoEditorRef.current?.getValue() ?? yamlCode)
+              }
+            >
+              {t('download')}
+            </Button>
+          )}
 
           {!isPreview && (
             <Button size="sm" onClick={() => setIsPostOpened(true)}>

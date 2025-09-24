@@ -1,10 +1,10 @@
-export function request(
+export async function request(
   method: HttpMethod,
   path: string,
   body?: object,
   headers?: object,
 ): Promise<Response> {
-  return fetch(API_URL + path, {
+  const response = await fetch(API_URL + path, {
     method,
     body: body ? JSON.stringify(body) : undefined,
     headers: {
@@ -13,6 +13,14 @@ export function request(
     },
     credentials: 'include',
   })
+
+  if (!response.ok) {
+    const error = await response.json()
+
+    throw new Error(error.message)
+  }
+
+  return response
 }
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'

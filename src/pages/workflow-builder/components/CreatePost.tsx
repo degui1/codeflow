@@ -91,8 +91,8 @@ export function CreatePost({ open, onClose, code }: CreatePostProps) {
         },
       })
     },
-    onError(error) {
-      toast.error(error.message)
+    onError() {
+      toast.error(t('somethingWentWrong'))
     },
   })
 

@@ -74,6 +74,7 @@
     "postDeleted": "Post deleted!",
     "selectAVisibility": "Select a visibility",
     "selectPostVisibility": "Select post visibility",
-    "visibility": "Visibility"
+    "visibility": "Visibility",
+    "somethingWentWrong": "Oops, something went wrong"
   }
 }

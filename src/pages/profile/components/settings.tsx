@@ -12,6 +12,7 @@ import { useUserInfo } from '@/hooks/useUserInfo'
 import ProfileService from '@/services/ProfileService'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 
 interface SettingsProps {
   open: boolean
@@ -24,7 +25,12 @@ export function Settings({ open, onClose }: SettingsProps) {
   const { data: userData } = useUserInfo()
 
   const { mutateAsync: handleDeleteAccount, isPending: isDeleting } =
-    useMutation({ mutationFn: ProfileService.deleteAccount })
+    useMutation({
+      mutationFn: ProfileService.deleteAccount,
+      onError() {
+        toast.error(t('somethingWentWrong'))
+      },
+    })
 
   return (
     <Dialog open={open} onOpenChange={onClose}>

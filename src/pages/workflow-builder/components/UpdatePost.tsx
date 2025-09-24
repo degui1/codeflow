@@ -132,8 +132,8 @@ export function EditPost({ open, onClose, post }: EditPostProps) {
 
       toast(t('postDeleted'))
     },
-    onError(error) {
-      toast.error(error.message)
+    onError() {
+      toast.error(t('somethingWentWrong'))
     },
   })
 

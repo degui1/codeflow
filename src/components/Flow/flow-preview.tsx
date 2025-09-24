@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ThumbsUp, Settings, Eye, Download } from 'lucide-react'
 
-import { downloadFile } from '@/utils/downloadFile'
+import { EditPost } from '@/pages/workflow-builder/components/UpdatePost'
+import { Post } from '@/schemas/posts/posts.schema'
+import { useDownloadFlow } from '@/hooks/useDownloadFlow'
 
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 import { FlowCanvas } from './flow-canvas'
 import { FlowVisualizer } from './flow-visualizer'
-import { EditPost } from '@/pages/workflow-builder/components/UpdatePost'
-import { Post } from '@/schemas/posts/posts.schema'
 
 export interface Template {
   isOwner?: boolean
@@ -28,6 +28,7 @@ export function FlowPreview({
   const [isEditingPost, setIsEditingPost] = useState(false)
 
   const { t } = useTranslation()
+  const { downloadFlowMutation } = useDownloadFlow()
 
   useEffect(() => {
     const checkMobile = () => {
@@ -100,7 +101,11 @@ export function FlowPreview({
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  downloadFile(post.flow.content, `${post.title}.yaml`)
+                  downloadFlowMutation.mutateAsync({
+                    filename: `${post.title}.yaml`,
+                    content: post.flow.content,
+                    postId: post.id,
+                  })
                 }}
               >
                 <Download className="size-4" />
