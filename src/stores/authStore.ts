@@ -11,7 +11,7 @@ type AuthStore = {
 export const authStore = create<AuthStore>((set) => ({
   isAuthenticated: false,
   getIsAuthenticated: async () => {
-    const cookie = await window.cookieStore.get({ name: SESSION_COOKIE })
+    const cookie = await cookieStore.get({ name: SESSION_COOKIE })
     const isAuth = Boolean(cookie)
 
     set({ isAuthenticated: isAuth })
