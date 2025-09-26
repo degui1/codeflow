@@ -151,7 +151,7 @@ export function FlowField({
                 field={subField}
                 fieldKey={subKey}
                 groupKey={groupKey}
-                path={`${currentPath}[].${subKey}`}
+                path={`${currentPath}.fields.${subKey}`}
                 level={level + 1}
               />
             ))}
@@ -214,7 +214,7 @@ export function FlowField({
               field={subField}
               fieldKey={subKey}
               groupKey={groupKey}
-              path={`${currentPath}[].${subKey}`}
+              path={`${currentPath}.fields.${subKey}`}
               level={level + 1}
             />
           ))}

@@ -17,8 +17,8 @@ export function FlowProvider({ children }: FlowProviderProps) {
 
     socket.on('exception', (data) => {
       console.error(data)
-      toast.error(data.message, {
-        description: data.error,
+      toast.error(data.message || data.name, {
+        description: data.error || data.errors,
       })
     })
 
