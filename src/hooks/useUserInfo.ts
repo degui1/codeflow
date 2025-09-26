@@ -6,16 +6,20 @@ export function useUserInfo() {
   const query = useSuspenseQuery({
     queryKey: ['get-logged-user-information'],
     queryFn: async () => {
-      const response = await request('GET', '/me')
+      try {
+        const response = await request('GET', '/me')
 
-      const json = await response.json()
+        const json = await response.json()
 
-      if (json != undefined) {
-        const { success, data } = userSchema.safeParse(json)
+        if (json != undefined) {
+          const { success, data } = userSchema.safeParse(json)
 
-        if (!success) return null
+          if (!success) return null
 
-        return data
+          return data
+        }
+      } catch (error) {
+        console.error(error)
       }
 
       return null
