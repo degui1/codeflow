@@ -178,7 +178,7 @@ export const FlowCodePreview = forwardRef<
             {t('undoChanges')}
           </Button>
 
-          {!isPreview && postId && (
+          {isPreview && postId && (
             <Button
               size="sm"
               className="ml-auto"
@@ -194,7 +194,7 @@ export const FlowCodePreview = forwardRef<
             </Button>
           )}
 
-          {isPreview && (
+          {!isPreview && (
             <Button
               size="sm"
               className="ml-auto"
