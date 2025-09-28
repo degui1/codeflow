@@ -1,6 +1,10 @@
+import { request } from '@/api/api-client'
+import { z } from 'zod'
 import { create } from 'zustand'
 
-const SESSION_COOKIE = 'session_cookie'
+const isAuthenticatedSchema = z.object({
+  isAuthenticated: z.boolean().default(false),
+})
 
 type AuthStore = {
   isAuthenticated: boolean
@@ -11,12 +15,24 @@ type AuthStore = {
 export const authStore = create<AuthStore>((set) => ({
   isAuthenticated: false,
   getIsAuthenticated: async () => {
-    const cookie = await cookieStore.get({ name: SESSION_COOKIE })
-    const isAuth = Boolean(cookie)
+    try {
+      const response = await request('POST', '/auth/session-verify')
 
-    set({ isAuthenticated: isAuth })
+      const { isAuthenticated } = isAuthenticatedSchema.parse(
+        await response.json(),
+      )
 
-    return isAuth
+      set({ isAuthenticated })
+
+      return isAuthenticated
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.error(error)
+      }
+
+      set({ isAuthenticated: false })
+      return false
+    }
   },
   reset() {
     set({ isAuthenticated: false })
