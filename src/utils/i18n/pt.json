@@ -77,6 +77,8 @@
     "visibility": "Visibilidade",
     "somethingWentWrong": "Ops, algo deu errado!",
     "by": "Por",
-    "downloads": "Downloads"
+    "downloads": "Downloads",
+    "empty": "Vazio",
+    "searchFor": "Buscar por"
   }
 }

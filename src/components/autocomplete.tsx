@@ -19,6 +19,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { useTranslation } from 'react-i18next'
 
 interface AutocompleteProps {
   options: string[]
@@ -33,6 +34,7 @@ export function Autocomplete({
 }: AutocompleteProps) {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState<string[]>([])
+  const { t } = useTranslation()
 
   const toggleOption = (option: string) => {
     setSelected((prev) => {
@@ -84,9 +86,9 @@ export function Autocomplete({
 
       <PopoverContent className="w-full p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." className="h-9" />
+          <CommandInput placeholder={t('searchFor')} className="h-9" />
           <CommandList>
-            <CommandEmpty>Nenhum disponível</CommandEmpty>
+            <CommandEmpty>{t('empty')}</CommandEmpty>
             <CommandGroup>
               {options.map((item) => (
                 <CommandItem
