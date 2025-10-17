@@ -67,31 +67,30 @@ export function Header() {
             </>
           )}
 
-          {isMobile && (
+          {/* {isMobile && (
             <ul>
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <AlignJustify />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Home</DropdownMenuLabel>
+                <DropdownMenuContent> */}
+          {/* <DropdownMenuLabel>Home</DropdownMenuLabel>
                   <DropdownMenuItem>{t('Comunidade')}</DropdownMenuItem>
                   <DropdownMenuItem>Builder</DropdownMenuItem>
                   <DropdownMenuItem>Ferramentas</DropdownMenuItem>
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem>Profile</DropdownMenuItem> */}
+          {/* <DropdownMenuItem>
                     <ToggleLanguage />
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                 </DropdownMenuContent>
               </DropdownMenu>
             </ul>
-          )}
+          )} */}
         </nav>
 
         <div className="flex items-center space-x-4">
-          <ToggleLanguage />
-
+          {/* <ToggleLanguage /> */}
           <SafeSuspense fallback={<CredentialsLoading />}>
             <Credentials />
           </SafeSuspense>
