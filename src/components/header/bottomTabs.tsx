@@ -2,15 +2,8 @@ import { Link } from 'react-router'
 import { Button } from '../ui/button'
 import { useState, useEffect } from 'react'
 
-import { House, Hammer, BrickWall, Users, AlignJustify } from 'lucide-react'
+import { House, Hammer, Users, AlignJustify } from 'lucide-react'
 
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from '@radix-ui/react-dropdown-menu'
 import ToggleLanguage from '../toggleLanguage'
 
 type ButtonType = {
@@ -44,31 +37,39 @@ export function BottomTabs() {
   const buttons: ButtonType[] = [
     { label: 'Home', route: '/#home', icon: <House /> },
     { label: 'Comunidade', route: '/community', icon: <Users /> },
-    { label: 'Builder', route: '/workflow-builder', icon: <BrickWall /> },
-    { label: 'Ferramentas', route: '/features-section', icon: <Hammer /> },
+    { label: 'Builder', route: '/workflow-builder', icon: <Hammer /> },
     { label: 'Menu', icon: <AlignJustify />, action: toogleMenu },
   ]
   return (
-    <div className="flex justify-around">
+    <div className="relative flex justify-around">
       {isMobile &&
-        buttons.map((button, index) => (
-          <Button
-            size={'lg'}
-            variant={'ghost'}
-            key={index}
-            onClick={() => (button.action ? button.action() : null)}
-          >
-            <Link to={button.route ?? ''}>{button.icon}</Link>
-          </Button>
-        ))}
+        buttons.map((button, index) => {
+          const isMenuButton = button.label === 'Menu'
 
-      <nav className="flex items-center space-x-4">
-        {isMenuOpen && isMobile && (
-          <ul className="fixed">
-            <ToggleLanguage />
-          </ul>
-        )}
-      </nav>
+          return (
+            <div key={index} className="relative">
+              <Button
+                size={'lg'}
+                variant={'ghost'}
+                onClick={() => (button.action ? button.action() : null)}
+              >
+                {button.route ? (
+                  <Link to={button.route}>{button.icon}</Link>
+                ) : (
+                  button.icon
+                )}
+              </Button>
+
+              {isMenuButton && isMenuOpen && (
+                <ul className="absolute bottom-full left-1/2 z-50 mb-2 w-40 -translate-x-1/2 rounded p-2 shadow">
+                  <li>
+                    <ToggleLanguage />
+                  </li>
+                </ul>
+              )}
+            </div>
+          )
+        })}
     </div>
   )
 }
