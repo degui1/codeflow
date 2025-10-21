@@ -11,7 +11,7 @@ export function CoreLayout() {
       <div className="md: flex flex-1 flex-col px-10 py-10">
         <Outlet />
       </div>
-      <div className="fixed bottom-0 w-full border py-2">
+      <div className="sticky bottom-0 w-full border py-2">
         <div className="bg-foreground/10 absolute inset-0 backdrop-blur-md"></div>
 
         <BottomTabs />
