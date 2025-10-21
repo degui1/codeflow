@@ -8,10 +8,12 @@ export function CoreLayout() {
       <div className="sticky top-0 z-50 w-full">
         <Header />
       </div>
-      <div className="md: flex flex-1 flex-col px-0 px-10 py-10">
+      <div className="md: flex flex-1 flex-col px-10 py-10">
         <Outlet />
       </div>
-      <div className="fixed bottom-0 h-10 w-full border-b">
+      <div className="fixed bottom-0 w-full border py-2">
+        <div className="bg-foreground/10 absolute inset-0 backdrop-blur-md"></div>
+
         <BottomTabs />
       </div>
     </div>

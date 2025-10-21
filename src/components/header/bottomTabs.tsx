@@ -1,45 +1,42 @@
 import { Link } from 'react-router'
-import { Button } from '../ui/button'
-import { useState, useEffect } from 'react'
-
 import { House, Hammer, Users, AlignJustify } from 'lucide-react'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
+import { Button } from '../ui/button'
 import ToggleLanguage from '../toggleLanguage'
 
 type ButtonType = {
   label: string
   route?: string
   action?: () => void
-  icon?: any
-}
-
-export function useIsMobile(breakpoint = 768) {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkIsMobile = () => setIsMobile(window.innerWidth < breakpoint)
-
-    checkIsMobile()
-    window.addEventListener('resize', checkIsMobile)
-    return () => window.removeEventListener('resize', checkIsMobile)
-  }, [breakpoint])
-
-  return isMobile
+  icon?: React.ReactNode
 }
 
 export function BottomTabs() {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const isMobile = useIsMobile()
-  const toogleMenu = () => {
-    console.log('isMenuOpen')
-    setIsMenuOpen((prev) => !prev)
-  }
+
   const buttons: ButtonType[] = [
-    { label: 'Home', route: '/#home', icon: <House /> },
-    { label: 'Comunidade', route: '/community', icon: <Users /> },
-    { label: 'Builder', route: '/workflow-builder', icon: <Hammer /> },
-    { label: 'Menu', icon: <AlignJustify />, action: toogleMenu },
+    { label: 'Home', route: '/#home', icon: <House className="size-6" /> },
+
+    {
+      label: 'Comunidade',
+      route: '/community',
+      icon: <Users className="size-6" />,
+    },
+
+    {
+      label: 'Builder',
+      route: '/workflow-builder',
+      icon: <Hammer className="size-6" />,
+    },
+
+    {
+      label: 'Menu',
+      icon: <AlignJustify className="size-6" />,
+      // action: toggleMenu,
+    },
   ]
+
   return (
     <div className="relative flex justify-around">
       {isMobile &&
@@ -48,25 +45,21 @@ export function BottomTabs() {
 
           return (
             <div key={index} className="relative">
-              <Button
-                size={'lg'}
-                variant={'ghost'}
-                onClick={() => (button.action ? button.action() : null)}
-              >
-                {button.route ? (
-                  <Link to={button.route}>{button.icon}</Link>
-                ) : (
-                  button.icon
-                )}
-              </Button>
-
-              {isMenuButton && isMenuOpen && (
-                <ul className="absolute bottom-full left-1/2 z-50 mb-2 w-40 -translate-x-1/2 rounded p-2 shadow">
-                  <li>
-                    <ToggleLanguage />
-                  </li>
-                </ul>
+              {!isMenuButton && (
+                <Button
+                  size="lg"
+                  variant="ghost"
+                  onClick={() => (button.action ? button.action() : null)}
+                >
+                  {button.route ? (
+                    <Link to={button.route}>{button.icon}</Link>
+                  ) : (
+                    button.icon
+                  )}
+                </Button>
               )}
+
+              {isMenuButton && <ToggleLanguage />}
             </div>
           )
         })}

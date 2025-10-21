@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 const ToggleLanguage = ({ ...props }: React.ComponentProps<'div'>) => {
   const { i18n } = useTranslation()
-  const [selectedLanguage, setSelectedLanguage] = useState<string>('')
+  const [selectedLanguage, setSelectedLanguage] = useState('')
 
   const handleToggleLanguage = (value: string) => {
     if (value && value !== i18n.language) {
@@ -19,7 +19,7 @@ const ToggleLanguage = ({ ...props }: React.ComponentProps<'div'>) => {
     setSelectedLanguage(lang ?? 'en')
   }, [i18n.language])
   return (
-    <div {...props} className="bg-accent w-20 rounded-4xl p-2">
+    <div {...props} className="bg-accent rounded-4xl p-0.5">
       <ToggleGroup
         type="single"
         size="sm"
@@ -27,18 +27,19 @@ const ToggleLanguage = ({ ...props }: React.ComponentProps<'div'>) => {
         onValueChange={handleToggleLanguage}
       >
         <ToggleGroupItem
-          className="rounded-full p-2 data-[state=on]:rounded-full data-[state=on]:bg-black data-[state=on]:text-white"
+          className="rounded-full p-2 text-xs data-[state=on]:rounded-full data-[state=on]:bg-black data-[state=on]:text-white"
           value="pt"
           aria-label="Toggle bold"
+          variant="outline"
         >
-          <span className="h-4 w-4">PT</span>
+          PT
         </ToggleGroupItem>
         <ToggleGroupItem
-          className="rounded-full p-2 data-[state=on]:rounded-full data-[state=on]:bg-black data-[state=on]:text-white"
+          className="rounded-full p-2 text-xs data-[state=on]:rounded-full data-[state=on]:bg-black data-[state=on]:text-white"
           value="en"
           aria-label="Toggle italic"
         >
-          <span className="h-4 w-4">EN</span>
+          EN
         </ToggleGroupItem>
       </ToggleGroup>
     </div>
