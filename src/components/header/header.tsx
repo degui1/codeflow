@@ -1,37 +1,13 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@radix-ui/react-dropdown-menu'
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import { AlignJustify } from 'lucide-react'
 
 import { ScrollToHash } from '@/utils/scrollToHash'
 
 import { Button } from '../ui/button'
 import { useTranslation } from 'react-i18next'
-import ToggleLanguage from '../toggleLanguage'
 import { SafeSuspense } from '../safe-suspense'
 import { Credentials } from './credentials'
 import { CredentialsLoading } from './credentials.loading'
-
-export function useIsMobile(breakpoint = 768) {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkIsMobile = () => setIsMobile(window.innerWidth < breakpoint)
-
-    checkIsMobile()
-    window.addEventListener('resize', checkIsMobile)
-    return () => window.removeEventListener('resize', checkIsMobile)
-  }, [breakpoint])
-
-  return isMobile
-}
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 export function Header() {
   const { t } = useTranslation()
@@ -52,7 +28,7 @@ export function Header() {
             <>
               <ul>
                 <Button variant="link" asChild>
-                  <a href="/#home">Home</a>
+                  <a href="/#home">{t('home')}</a>
                 </Button>
                 <Button variant="link" asChild>
                   <Link to="/community">{t('Comunidade')}</Link>
@@ -61,36 +37,14 @@ export function Header() {
                   <Link to="/workflow-builder">Builder</Link>
                 </Button>
                 <Button variant="link" asChild>
-                  <a href="/#features-section">Ferramentas</a>
+                  <a href="/#features-section">{t('tools')}</a>
                 </Button>
               </ul>
             </>
           )}
-
-          {/* {isMobile && (
-            <ul>
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <AlignJustify />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent> */}
-          {/* <DropdownMenuLabel>Home</DropdownMenuLabel>
-                  <DropdownMenuItem>{t('Comunidade')}</DropdownMenuItem>
-                  <DropdownMenuItem>Builder</DropdownMenuItem>
-                  <DropdownMenuItem>Ferramentas</DropdownMenuItem>
-                  <DropdownMenuItem>Profile</DropdownMenuItem> */}
-          {/* <DropdownMenuItem>
-                    <ToggleLanguage />
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </ul>
-          )} */}
         </nav>
 
         <div className="flex items-center space-x-4">
-          {/* <ToggleLanguage /> */}
           <SafeSuspense fallback={<CredentialsLoading />}>
             <Credentials />
           </SafeSuspense>

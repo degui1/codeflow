@@ -1,8 +1,8 @@
 {
   "translation": {
-    "Inicio": "Home",
+    "home": "Home",
     "Comunidade": "Community",
-    "Ferramentas": "Tools",
+    "tools": "Tools",
     "Entrar": "Sign in",
     "Construa e baixe workflows": "Build and download workflows",
     "Otimização da geração de workflows: uma solução prática, segura e acessível": "Workflow generation optimization: a practical, safe, and affordable solution",
