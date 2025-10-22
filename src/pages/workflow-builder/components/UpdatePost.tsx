@@ -144,7 +144,7 @@ export function EditPost({ open, onClose, post }: EditPostProps) {
           <DialogTitle className="text-center"></DialogTitle>
         </DialogHeader>
 
-        <div className="flex w-full flex-1 flex-col items-center">
+        <div className="flex w-full flex-1 flex-col items-center justify-center">
           <Form {...form}>
             <form
               id="community-form-filter"
@@ -226,11 +226,13 @@ export function EditPost({ open, onClose, post }: EditPostProps) {
             </form>
           </Form>
 
-          <FlowCodePreview
-            ref={editorRef}
-            yamlCode={post.flow.content}
-            isPreview
-          />
+          <div className="flex w-full">
+            <FlowCodePreview
+              ref={editorRef}
+              yamlCode={post.flow.content}
+              isPreview
+            />
+          </div>
         </div>
 
         <DialogFooter>

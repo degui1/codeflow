@@ -46,7 +46,7 @@ export const FlowCodePreview = forwardRef<
 
   return (
     <>
-      <div className="flex w-full max-w-[400px] flex-col gap-4">
+      <div className="flex w-full flex-col gap-4">
         <div className="flex flex-row justify-end space-x-2">
           <Button
             variant="secondary"
