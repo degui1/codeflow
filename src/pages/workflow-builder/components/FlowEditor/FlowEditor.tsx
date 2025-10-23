@@ -35,7 +35,9 @@ export function FlowEditor() {
         <>
           <ScrollRestoration />
 
-          <FlowCodePreview yamlCode={flowStringified} />
+          <div className="flex max-w-md flex-1">
+            <FlowCodePreview yamlCode={flowStringified} />
+          </div>
         </>
       )}
     </>

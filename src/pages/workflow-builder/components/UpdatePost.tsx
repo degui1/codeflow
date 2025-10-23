@@ -51,6 +51,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { MarkdownEditor } from '@/components/MarkdownEditor'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const editPostFormSchema = z.object({
   title: z.string(),
@@ -139,12 +141,12 @@ export function EditPost({ open, onClose, post }: EditPostProps) {
 
   return (
     <Dialog modal open={open} onOpenChange={() => onClose()}>
-      <DialogContent className="flex w-full max-w-max flex-col">
+      <DialogContent className="flex max-h-[80%] w-full max-w-max flex-col md:max-w-5xl">
         <DialogHeader>
           <DialogTitle className="text-center"></DialogTitle>
         </DialogHeader>
 
-        <div className="flex w-full flex-1 flex-col items-center justify-center">
+        <ScrollArea className="flex w-full flex-1 flex-col items-center justify-center overflow-y-auto">
           <Form {...form}>
             <form
               id="community-form-filter"
@@ -179,7 +181,7 @@ export function EditPost({ open, onClose, post }: EditPostProps) {
                   <FormItem>
                     <FormLabel>{t('description')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('description')} {...field} />
+                      <MarkdownEditor className="min-h-80" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -233,7 +235,7 @@ export function EditPost({ open, onClose, post }: EditPostProps) {
               isPreview
             />
           </div>
-        </div>
+        </ScrollArea>
 
         <DialogFooter>
           <AlertDialog>

@@ -1,4 +1,6 @@
+import { MarkdownVisualizer } from '../MarkdownVisualizer'
 import { Dialog, DialogContent, DialogTitle, DialogHeader } from '../ui/dialog'
+import { ScrollArea } from '../ui/scroll-area'
 import { FlowCodePreview } from '../workflow-builder/FlowCodePreview'
 
 interface FlowVisualizerProps {
@@ -6,6 +8,7 @@ interface FlowVisualizerProps {
   onClose: VoidFunction
   code: string
   title: string
+  content: string
 }
 
 export function FlowVisualizer({
@@ -13,15 +16,20 @@ export function FlowVisualizer({
   onClose,
   title,
   code,
+  content,
 }: FlowVisualizerProps) {
   return (
     <Dialog modal open={open} onOpenChange={onClose}>
-      <DialogContent className="flex h-[80%] w-full flex-col">
+      <DialogContent className="flex h-[80%] flex-col md:w-full md:max-w-6xl">
         <DialogHeader>
           <DialogTitle className="text-center">{title}</DialogTitle>
         </DialogHeader>
 
-        <div className="flex w-full flex-1 justify-center">
+        <div className="flex max-h-[90%] flex-1 flex-col space-x-4 overflow-y-auto lg:flex-row">
+          <ScrollArea className="w-full rounded-md border p-1">
+            <MarkdownVisualizer source={content} />
+          </ScrollArea>
+
           <FlowCodePreview yamlCode={code} isPreview />
         </div>
       </DialogContent>

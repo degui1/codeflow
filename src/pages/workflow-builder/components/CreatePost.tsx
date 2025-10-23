@@ -35,6 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { MarkdownEditor } from '@/components/MarkdownEditor'
 
 const createPostFormSchema = z.object({
   title: z.string(),
@@ -98,7 +99,7 @@ export function CreatePost({ open, onClose, code }: CreatePostProps) {
 
   return (
     <Dialog modal open={open} onOpenChange={() => onClose()}>
-      <DialogContent className="flex w-full flex-col">
+      <DialogContent className="flex w-full flex-col md:max-w-5xl">
         <DialogHeader>
           <DialogTitle className="text-center"></DialogTitle>
         </DialogHeader>
@@ -138,7 +139,7 @@ export function CreatePost({ open, onClose, code }: CreatePostProps) {
                   <FormItem>
                     <FormLabel>{t('description')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('description')} {...field} />
+                      <MarkdownEditor {...field} />
                     </FormControl>
 
                     <FormMessage />

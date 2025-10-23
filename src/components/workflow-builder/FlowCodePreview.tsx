@@ -81,7 +81,7 @@ export const FlowCodePreview = forwardRef<
         </div>
 
         <div className="flex flex-row justify-end space-x-2">
-          <Button variant="ghost" onClick={() => resetChanges()}>
+          <Button variant="ghost" size="sm" onClick={() => resetChanges()}>
             {t('undoChanges')}
           </Button>
 

@@ -143,6 +143,7 @@ export function FlowPreview({
           onClose={() => setIsVisualizerOpened(false)}
           code={post.flow.content}
           title={post.title}
+          content={post.description}
         />
       )}
 
