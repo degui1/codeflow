@@ -1,11 +1,9 @@
-import { Info } from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip'
-import { Button } from './ui/button'
 
 type HelpProps = {
   info?: string
@@ -15,18 +13,16 @@ type HelpProps = {
 export function Help({ info, children }: HelpProps) {
   return (
     <>
-      {children}
+      {!info && children}
 
       {info && (
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Info />
-              </Button>
+              <span className="h-full w-full">{children}</span>
             </TooltipTrigger>
             <TooltipContent>
-              <p>{info}</p>
+              <p className="text-sm">{info}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

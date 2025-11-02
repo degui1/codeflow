@@ -56,7 +56,7 @@ export function Autocomplete({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger className="bg-input/30 hover:bg-input/50 border-input flex h-full w-full items-center rounded-md border px-4 py-0">
+      <PopoverTrigger className="bg-input/30 hover:bg-input/50 border-input flex h-9 w-full items-center rounded-md border px-4 py-0">
         {!!selected.length && (
           <div className="flex flex-1 flex-wrap gap-2">
             {selected.map((item) => (
