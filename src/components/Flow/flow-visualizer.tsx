@@ -26,7 +26,7 @@ export function FlowVisualizer({
         </DialogHeader>
 
         <div className="flex max-h-[90%] flex-1 flex-col space-x-4 overflow-y-auto lg:flex-row">
-          <ScrollArea className="w-full rounded-md border p-1">
+          <ScrollArea className="w-full rounded-md p-10">
             <MarkdownVisualizer source={content} />
           </ScrollArea>
 

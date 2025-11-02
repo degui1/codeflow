@@ -75,11 +75,10 @@ export function MarkdownVisualizer({
         // Blocos de código
         pre: ({ children }) => (
           <pre
-            className="my-4 overflow-x-auto rounded-xl p-4"
+            className="my-4 overflow-x-auto"
             style={{
               backgroundColor: 'hsl(var(--card))',
               color: 'hsl(var(--card-foreground))',
-              border: '1px solid hsl(var(--border))',
             }}
           >
             {children}
