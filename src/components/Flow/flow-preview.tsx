@@ -11,6 +11,7 @@ import { Card } from '../ui/card'
 import { FlowCanvas } from './flow-canvas'
 import { FlowVisualizer } from './flow-visualizer'
 import { useLikePost } from '@/hooks/useLikePost'
+import { formatDistance } from '@/utils/format'
 
 export interface Template {
   isOwner?: boolean
@@ -52,7 +53,12 @@ export function FlowPreview({
     <>
       <div className="flex flex-col space-y-1">
         <header className="flex items-center justify-between">
-          <h1 className="flex-1">{post.title}</h1>
+          <div className="flex w-full">
+            <h1 className="flex-1 truncate">{post.title}</h1>
+            <p className="text-muted-foreground text-end text-sm">
+              {formatDistance(post.updated_at, new Date(), { addSuffix: true })}
+            </p>
+          </div>
 
           {isOwner && canEdit && (
             <div>
