@@ -37,6 +37,10 @@ export function FlowField({
   const indentClass = `pl-${Math.min(level * 4, 12)}`
 
   function onCompleteInput(value: unknown) {
+    if (!value) {
+      return
+    }
+
     setIsSubmitting(true)
     socket.timeout(5000).emit(
       'set-field-data',
