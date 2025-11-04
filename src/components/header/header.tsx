@@ -8,6 +8,7 @@ import { SafeSuspense } from '../safe-suspense'
 import { Credentials } from './credentials'
 import { CredentialsLoading } from './credentials.loading'
 import { useIsMobile } from '@/hooks/useIsMobile'
+import ToggleLanguage from '../toggleLanguage'
 
 export function Header() {
   const { t } = useTranslation()
@@ -23,31 +24,30 @@ export function Header() {
           <img src="/codeflow_logo.png" alt="" width={60} height={80} />
         </Link>
 
-        <nav className="flex items-center space-x-4">
-          {!isMobile && (
-            <>
-              <ul>
-                <Button variant="link" asChild>
-                  <a href="/#home">{t('home')}</a>
-                </Button>
-                <Button variant="link" asChild>
-                  <Link to="/community">{t('Comunidade')}</Link>
-                </Button>
-                <Button variant="link" asChild>
-                  <Link to="/workflow-builder">Builder</Link>
-                </Button>
-                <Button variant="link" asChild>
-                  <a href="/#features-section">{t('tools')}</a>
-                </Button>
-              </ul>
-            </>
-          )}
-        </nav>
+        {!isMobile && (
+          <nav className="flex items-center space-x-4">
+            <div className="flex">
+              <Button variant="link" asChild>
+                <a href="/#home">{t('home')}</a>
+              </Button>
+              <Button variant="link" asChild>
+                <Link to="/community">{t('Comunidade')}</Link>
+              </Button>
+              <Button variant="link" asChild>
+                <Link to="/workflow-builder">Builder</Link>
+              </Button>
+              <Button variant="link" asChild>
+                <a href="/#features-section">{t('tools')}</a>
+              </Button>
+            </div>
+          </nav>
+        )}
 
         <div className="flex items-center space-x-4">
           <SafeSuspense fallback={<CredentialsLoading />}>
             <Credentials />
           </SafeSuspense>
+          {!isMobile && <ToggleLanguage />}
         </div>
       </div>
     </header>
