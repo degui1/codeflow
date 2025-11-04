@@ -83,10 +83,8 @@ export function Home() {
           />
           <Feature
             icon={<MdOutlineRateReview size={35} />}
-            title="IntelliSense"
-            desc={t(
-              'Obtenha dicas de preenchimento automático enquanto você cria arquivos YAML.',
-            )}
+            title={t('featurePrebuiltBlocksTitle')}
+            desc={t('featurePrebuiltBlocksDesc')}
           />
           <Feature
             icon={<MdOutlinePolyline size={35} />}
